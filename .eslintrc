@@ -5,5 +5,8 @@
     "node": true,
     "jest/globals": true
   },
-  "plugins": ["jest"]
+  "plugins": ["jest"],
+  "rules": {
+    "arrow-body-style": ["error", "as-needed"]
+  }
 }
