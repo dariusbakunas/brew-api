@@ -1,0 +1,5 @@
+# import Country from 'src/schema/country.graphql'
+
+type Query {
+  countries: [Country!]!
+}

@@ -1,0 +1,9 @@
+type Country {
+  id: ID!
+  iso: String!
+  name: String!
+  niceName: String!
+  iso3: String
+  numCode: Int
+  phoneCode: Int!
+}

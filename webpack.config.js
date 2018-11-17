@@ -9,7 +9,11 @@ module.exports = (env, argv) => {
     entry: {
       server: './src/server.js',
     },
-    devtool: 'sourcemap',
+    node: {
+      __filename: true,
+      __dirname: true,
+    },
+    devtool: 'sourcemap-inline',
     output: {
       path: path.resolve(__dirname, 'dist'),
       publicPath: '/',
@@ -20,13 +24,18 @@ module.exports = (env, argv) => {
     module: {
       rules: [
         {
+          exclude: /node_modules/,
+          test: /\.graphql$/,
+          use: { loader: 'graphql-import-loader' },
+        },
+        {
           test: /\.js$/,
           exclude: /node_modules/,
           use: {
             loader: 'babel-loader',
             options: {
               presets: ['@babel/preset-env'],
-              plugins: ['@babel/plugin-proposal-object-rest-spread'],
+              plugins: ['@babel/plugin-proposal-object-rest-spread', '@babel/plugin-transform-runtime'],
             },
           },
         },
