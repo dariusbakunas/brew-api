@@ -1,5 +1,5 @@
 module.exports = {
-  up: queryInterface => queryInterface.bulkInsert('Countries', [
+  up: queryInterface => queryInterface.bulkInsert('countries', [
     {
       iso: 'AF',
       name: 'AFGHANISTAN',
@@ -1913,5 +1913,5 @@ module.exports = {
       phoneCode: 263,
     },
   ], {}),
-  down: queryInterface => queryInterface.bulkDelete('Countries', null, {}),
+  down: queryInterface => queryInterface.bulkDelete('countries', null, {}),
 };

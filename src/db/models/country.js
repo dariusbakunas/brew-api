@@ -25,4 +25,5 @@ export default (sequelize, DataTypes) => sequelize.define('Country', {
   },
 }, {
   timestamps: false,
+  tableName: 'countries',
 });
