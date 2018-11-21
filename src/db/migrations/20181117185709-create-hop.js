@@ -9,6 +9,7 @@ module.exports = {
     name: {
       allowNull: false,
       type: Sequelize.STRING,
+      unique: true,
     },
     alpha: {
       allowNull: false,

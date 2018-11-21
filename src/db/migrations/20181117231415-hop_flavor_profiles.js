@@ -16,7 +16,7 @@ module.exports = {
       },
       allowNull: false,
     },
-  }),
+  }).then(() => queryInterface.addIndex('hop_flavor_profiles', ['hopId', 'flavorProfileId'])),
 
   down: queryInterface => queryInterface.dropTable('hop_flavor_profiles'),
 };

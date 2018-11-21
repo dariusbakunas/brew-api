@@ -9,6 +9,7 @@ module.exports = {
     name: {
       allowNull: false,
       type: Sequelize.STRING,
+      unique: true,
     },
   }),
   down: queryInterface => queryInterface.dropTable('flavor_profiles'),
