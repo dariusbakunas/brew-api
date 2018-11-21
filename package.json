@@ -9,6 +9,8 @@
     "server:prod": "node dist/server.bundle.js",
     "build:dev": "webpack --watch --progress",
     "build:prod": "webpack --mode=production --progress",
+    "db:dev": "cross-env NODE_ENV=development sequelize",
+    "db:prod": "cross-env NODE_ENV=production sequelize",
     "test": "jest"
   },
   "repository": {
@@ -38,6 +40,7 @@
     "@babel/plugin-transform-runtime": "^7.1.0",
     "@babel/preset-env": "^7.1.6",
     "babel-loader": "^8.0.4",
+    "cross-env": "^5.2.0",
     "dotenv": "^6.1.0",
     "eslint": "^5.9.0",
     "eslint-config-airbnb-base": "^13.1.0",
