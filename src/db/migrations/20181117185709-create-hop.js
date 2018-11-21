@@ -9,7 +9,6 @@ module.exports = {
     name: {
       allowNull: false,
       type: Sequelize.STRING,
-      unique: true,
     },
     alpha: {
       allowNull: false,
@@ -40,6 +39,6 @@ module.exports = {
       allowNull: false,
       type: Sequelize.DATE,
     },
-  }),
+  }).then(() => queryInterface.addIndex('hops', ['name', 'originId'])),
   down: queryInterface => queryInterface.dropTable('hops'),
 };
