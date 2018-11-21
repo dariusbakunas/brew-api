@@ -1,0 +1,11 @@
+# import FlavorProfile from './flavorProfile.graphql'
+
+type Hop {
+  id: ID!
+  name: String!
+  alpha: Float!
+  beta: Float!
+  description: String
+  usage: String
+  flavorProfiles: [FlavorProfile!]!
+}

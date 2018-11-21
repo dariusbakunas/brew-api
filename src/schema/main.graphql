@@ -1,5 +1,7 @@
 # import Country from 'src/schema/country.graphql'
+# import Hop from 'src/schema/hop.graphql'
 
 type Query {
   countries: [Country!]!
+  hops: [Hop!]!
 }
