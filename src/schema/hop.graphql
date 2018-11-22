@@ -1,5 +1,3 @@
-# import FlavorProfile from './flavorProfile.graphql'
-
 type Hop {
   id: ID!
   name: String!

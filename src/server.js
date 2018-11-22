@@ -2,9 +2,11 @@ import express from 'express';
 import morgan from 'morgan';
 import { ApolloServer } from 'apollo-server-express';
 import logger from './logger';
-import typeDefs from './schema/main.graphql';
+import loadSchemas from './schema/loadSchemas';
 import db from './db/models/index';
 import resolvers from './resolvers/index';
+
+const typeDefs = loadSchemas();
 
 const server = new ApolloServer({
   typeDefs,

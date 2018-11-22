@@ -15,3 +15,7 @@
     
     # seed database
     % npm run db:[dev|prod] db:seed -- --seed [path to seed file]
+
+## Build docker image
+
+    % docker build -t dariusbakunas/brew-api:YOUR_BRANCH_NAME_OR_TAG -f Dockerfile .

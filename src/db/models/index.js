@@ -4,7 +4,7 @@ import hop from './hop';
 import flavorProfile from './flavorProfile';
 
 const env = process.env.NODE_ENV || 'development';
-const config = require('../../../config/database.js')[env];
+const config = require('../../config/database.js')[env];
 
 const db = {};
 
