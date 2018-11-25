@@ -22,6 +22,11 @@ app.use(morgan('combined', {
   skip: req => req.url === '/health-check',
 }));
 
+app.get('/health-check', (req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  res.end('Status: OK!');
+});
+
 server.applyMiddleware({ app });
 
 const port = 4000;
