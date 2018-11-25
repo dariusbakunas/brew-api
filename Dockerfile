@@ -8,6 +8,9 @@ COPY webpack.config.js /usr/src/app/
 COPY jest.config.js /usr/src/app/
 RUN npm install
 COPY src /usr/src/app/src
+COPY tests /usr/src/app/tests
+
+ENV SCHEMA_LOCATION ./src/schema
 
 RUN npm run test
 RUN npm run build:prod
@@ -18,6 +21,7 @@ RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 COPY --from=builder /usr/src/app/dist /usr/src/app/dist
+COPY --from=builder /usr/src/app/src/schema /usr/src/app/schema
 COPY --from=builder /usr/src/app/node_modules /usr/src/app/node_modules
 COPY --from=builder /usr/src/app/package.json /usr/src/app/package.json
 

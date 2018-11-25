@@ -7,4 +7,7 @@ module.exports = {
     '!**/node_modules/**',
     '!**/vendor/**',
   ],
+  setupFiles: [
+    '<rootDir>/tests/setupTests.js',
+  ],
 };
