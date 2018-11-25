@@ -43,6 +43,9 @@ module.exports = {
       allowNull: false,
       type: Sequelize.DATE,
     },
-  }).then(() => queryInterface.addIndex('hops', ['name', 'originId'])),
+  }).then(() => queryInterface.addConstraint('hops', ['name', 'originId'], {
+    type: 'unique',
+    name: 'hops_unique_constraint',
+  })),
   down: queryInterface => queryInterface.dropTable('hops'),
 };
