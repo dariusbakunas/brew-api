@@ -1,5 +1,9 @@
 type Query {
   countries: [Country!]!
   hops: [Hop!]!
-  flavorProfiles: [FlavorProfile!]!
+}
+
+
+type Mutation {
+  addHop(input: HopInput!) : Hop!
 }

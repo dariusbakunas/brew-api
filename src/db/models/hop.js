@@ -4,11 +4,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.STRING,
     },
-    alpha: {
+    aaLow: {
       allowNull: false,
       type: DataTypes.FLOAT,
     },
-    beta: {
+    aaHigh: {
       allowNull: false,
       type: DataTypes.FLOAT,
     },
@@ -16,6 +16,10 @@ module.exports = (sequelize, DataTypes) => {
     usage: {
       allowNull: false,
       type: DataTypes.STRING,
+    },
+    flavorProfile: {
+      allowNull: false,
+      type: DataTypes.ARRAY(DataTypes.STRING),
     },
   }, {
     tableName: 'hops',
@@ -25,10 +29,9 @@ module.exports = (sequelize, DataTypes) => {
       models.Country,
       {
         foreignKey: 'originId',
+        as: 'origin',
       },
     );
-
-    Hop.belongsToMany(models.FlavorProfile, { through: 'hop_flavor_profiles', as: 'flavorProfile' });
   };
   return Hop;
 };

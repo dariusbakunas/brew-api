@@ -1,4 +1,0 @@
-type FlavorProfile {
-  id: ID!
-  name: String!
-}

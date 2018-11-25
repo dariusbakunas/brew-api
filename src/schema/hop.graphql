@@ -1,9 +1,20 @@
 type Hop {
   id: ID!
   name: String!
-  alpha: Float!
-  beta: Float!
+  aaLow: Float!
+  aaHigh: Float!
   description: String
-  usage: String
-  flavorProfiles: [FlavorProfile!]!
+  usage: String!
+  flavorProfile: [String!]!
+  origin: Country!
+}
+
+input HopInput {
+  name: String!
+  aaLow: Float!
+  aaHigh: Float!
+  description: String
+  usage: String!
+  flavorProfile: [String!]
+  originId: ID!
 }

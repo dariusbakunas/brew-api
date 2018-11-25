@@ -10,11 +10,11 @@ module.exports = {
       allowNull: false,
       type: Sequelize.STRING,
     },
-    alpha: {
+    aaLow: {
       allowNull: false,
       type: Sequelize.FLOAT,
     },
-    beta: {
+    aaHigh: {
       allowNull: false,
       type: Sequelize.FLOAT,
     },
@@ -22,6 +22,10 @@ module.exports = {
     usage: {
       allowNull: false,
       type: Sequelize.STRING,
+    },
+    flavorProfile: {
+      type: Sequelize.ARRAY(Sequelize.STRING),
+      allowNull: false,
     },
     originId: {
       allowNull: false,
