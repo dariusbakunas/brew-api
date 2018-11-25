@@ -1,9 +1,11 @@
 type Query {
   countries: [Country!]!
   hops: [Hop!]!
+  users: [User!]!
+  userByEmail(email: String!): User
 }
-
 
 type Mutation {
   addHop(input: HopInput!) : Hop!
+  addUser(input: UserInput!) : User!
 }

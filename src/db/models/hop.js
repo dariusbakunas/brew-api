@@ -24,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     tableName: 'hops',
   });
+
   Hop.associate = (models) => {
     Hop.belongsTo(
       models.Country,

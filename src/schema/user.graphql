@@ -1,0 +1,22 @@
+enum UserStatus {
+  NEW
+  ACTIVE
+  INACTIVE
+}
+
+type User {
+  id: ID!
+  username: String!
+  firstName: String
+  lastName: String
+  email: String!
+  status: UserStatus!
+}
+
+input UserInput {
+  firstName: String
+  lastName: String
+  username: String!
+  email: String!
+  status: UserStatus
+}
