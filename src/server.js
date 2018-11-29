@@ -1,6 +1,8 @@
 import express from 'express';
 import morgan from 'morgan';
 import { ApolloServer } from 'apollo-server-express';
+import passport from 'passport';
+import { Strategy, ExtractJwt } from 'passport-jwt';
 import logger from './logger';
 import loadSchemas from './schema/loadSchemas';
 import db from './db/models/index';
@@ -14,9 +16,27 @@ const server = new ApolloServer({
   dataSources: () => ({
     db,
   }),
+  context: async ({ req }) => {
+    console.log(req.user);
+  },
 });
 
+const passportOpts = {
+  jwtFromRequest: ExtractJwt.fromHeader('auth-token'),
+  secretOrKey: process.env.JWT_SECRET,
+};
+
+passport.use(new Strategy(passportOpts, (payload, done) => {
+  if (payload) {
+    done(null, payload.user);
+  } else {
+    done('Forbidden');
+  }
+}));
+
 const app = express();
+
+app.use('*', passport.authenticate('jwt', { session: false }));
 
 app.use(morgan('combined', {
   skip: req => req.url === '/health-check',

@@ -30,6 +30,8 @@
     "graphql": "^14.0.2",
     "lodash.merge": "^4.6.1",
     "morgan": "^1.9.1",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
     "pg": "^7.6.1",
     "pg-hstore": "^2.3.2",
     "sequelize": "^4.41.2",

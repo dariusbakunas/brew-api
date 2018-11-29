@@ -15,7 +15,7 @@ const resolvers = {
     }),
   },
   Mutation: {
-    addUser: (_source, { input }, { dataSources }) => dataSources.db.User.create(input),
+    createUser: (_source, { input }, { dataSources }) => dataSources.db.User.create(input),
   },
 };
 

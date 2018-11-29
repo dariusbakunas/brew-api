@@ -6,6 +6,6 @@ type Query {
 }
 
 type Mutation {
-  addHop(input: HopInput!) : Hop!
-  addUser(input: UserInput!) : User!
+  createHop(input: HopInput!) : Hop!
+  createUser(input: UserInput!) : User!
 }
