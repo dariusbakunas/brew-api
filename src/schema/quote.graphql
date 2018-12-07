@@ -1,0 +1,8 @@
+type Quote {
+  text: String!
+  author: String
+}
+
+extend type Query {
+  randomQuote: Quote!
+}

@@ -2,6 +2,7 @@ import Sequelize from 'sequelize';
 import country from './country';
 import hop from './hop';
 import user from './user';
+import quote from './quote';
 
 const env = process.env.NODE_ENV || 'development';
 const config = require('../../config/database.js')[env];
@@ -14,6 +15,7 @@ const modules = [
   country,
   hop,
   user,
+  quote,
 ];
 
 // Initialize models
