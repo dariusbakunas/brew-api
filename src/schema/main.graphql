@@ -1,8 +1,5 @@
 type Query {
-  countries: [Country!]!
-  hops: [Hop!]!
-  users: [User!]!
-  userByEmail(email: String!): User
+  _empty: String,
 }
 
 type Mutation {

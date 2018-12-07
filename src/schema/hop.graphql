@@ -18,3 +18,7 @@ input HopInput {
   flavorProfile: [String!]
   originId: ID!
 }
+
+extend type Query {
+  hops: [Hop!]!
+}

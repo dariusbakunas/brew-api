@@ -20,3 +20,8 @@ input UserInput {
   email: String!
   status: UserStatus
 }
+
+extend type Query {
+  users: [User!]!
+  userByEmail(email: String!): User
+}
