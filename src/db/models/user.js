@@ -5,10 +5,20 @@ module.exports = (sequelize, DataTypes) => {
     email: {
       allowNull: false,
       type: DataTypes.STRING,
+      validate: {
+        isEmail: true,
+        len: [3, 255],
+      },
     },
     username: {
       allowNull: false,
       type: DataTypes.STRING,
+      validate: {
+        len: {
+          args: [5, 32],
+          msg: 'username length must be between 5 and 32',
+        },
+      },
     },
     status: {
       allowNull: false,

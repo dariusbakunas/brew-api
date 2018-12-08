@@ -4,5 +4,4 @@ type Query {
 
 type Mutation {
   createHop(input: HopInput!) : Hop!
-  createUser(input: UserInput!) : User!
 }
