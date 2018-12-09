@@ -16,7 +16,7 @@ const resolvers = {
     }),
   },
   Mutation: {
-    register: (_source, { input }, { dataSources, user }) => {
+    register: async (_source, { input }, { dataSources, user }) => {
       const {
         email, firstName, lastName, username, code,
       } = input;
@@ -24,6 +24,23 @@ const resolvers = {
       if (input.email !== user.email) {
         // can only register your own user
         throw new AuthenticationError('Registration email mismatch');
+      }
+
+      // find invitation
+      const invitation = await dataSources.db.Invitation.find({
+        where: {
+          email: {
+            [Op.eq]: email,
+          },
+        },
+      });
+
+      if (!invitation || invitation.code !== code) {
+        throw new UserInputError('Please check your inputs', {
+          fields: {
+            code: 'invalid code',
+          },
+        });
       }
 
       return dataSources.db.User.create({
@@ -34,7 +51,7 @@ const resolvers = {
         status: 'NEW',
       }).catch(Sequelize.ValidationError, (err) => {
         if (err.name === 'SequelizeUniqueConstraintError' || err.name === 'SequelizeValidationError') {
-          throw new UserInputError('Input Error', {
+          throw new UserInputError('Please check your inputs', {
             fields: err.errors.reduce((acc, error) => {
               acc[error.path] = error.message;
               return acc;

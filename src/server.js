@@ -16,11 +16,9 @@ const server = new ApolloServer({
   dataSources: () => ({
     db,
   }),
-  context: async ({ req }) => {
-    return {
-      user: req.user,
-    };
-  },
+  context: async ({ req }) => ({
+    user: req.user,
+  }),
 });
 
 const passportOpts = {

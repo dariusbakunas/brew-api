@@ -18,7 +18,7 @@ input RegistrationInput {
   lastName: String
   username: String!
   email: String!
-  code: String
+  code: String!
 }
 
 input UserInput {
