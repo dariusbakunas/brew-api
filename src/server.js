@@ -36,16 +36,16 @@ passport.use(new Strategy(passportOpts, (payload, done) => {
 
 const app = express();
 
+app.get('/health-check', (req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  res.end('Status: OK!');
+});
+
 app.use('*', passport.authenticate('jwt', { session: false }));
 
 app.use(morgan('combined', {
   skip: req => req.url === '/health-check',
 }));
-
-app.get('/health-check', (req, res) => {
-  res.writeHead(200, { 'Content-Type': 'text/plain' });
-  res.end('Status: OK!');
-});
 
 server.applyMiddleware({ app });
 
