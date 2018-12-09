@@ -7,8 +7,25 @@ import logger from './logger';
 import loadSchemas from './schema/loadSchemas';
 import db from './db/models/index';
 import resolvers from './resolvers/index';
+import hasScopeDirective from './directives/hasScopeDirective';
 
 const typeDefs = loadSchemas();
+
+const getUserScopes = (user) => {
+  const scopes = [];
+
+  if (!user.status) {
+    scopes.push('get:randomQuote');
+  } else if (user.status === 'GUEST') {
+    scopes.push('registerUser');
+  }
+
+  if (user.initialAuth) {
+    scopes.push('initialAuth');
+  }
+
+  return scopes;
+};
 
 const server = new ApolloServer({
   typeDefs,
@@ -16,9 +33,17 @@ const server = new ApolloServer({
   dataSources: () => ({
     db,
   }),
-  context: async ({ req }) => ({
-    user: req.user,
-  }),
+  schemaDirectives: {
+    hasScope: hasScopeDirective,
+  },
+  context: async ({ req }) => {
+    const user = {
+      ...req.user,
+      scopes: getUserScopes(req.user),
+    };
+
+    return { user };
+  },
 });
 
 const passportOpts = {

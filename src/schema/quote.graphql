@@ -4,5 +4,5 @@ type Quote {
 }
 
 extend type Query {
-  randomQuote: Quote!
+  randomQuote: Quote! @hasScope(scope: ["get:randomQuote"])
 }

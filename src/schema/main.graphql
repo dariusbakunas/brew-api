@@ -1,7 +1,9 @@
+directive @hasScope(scope: [String]) on FIELD_DEFINITION
+
 type Query {
   _empty: String,
 }
 
 type Mutation {
-  createHop(input: HopInput!) : Hop!
+  _empty: String,
 }
