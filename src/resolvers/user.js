@@ -37,8 +37,8 @@ const resolvers = {
 
       if (!invitation || invitation.code !== code) {
         throw new UserInputError('Please check your inputs', {
-          fields: {
-            code: 'invalid code',
+          validationErrors: {
+            code: 'Invalid code',
           },
         });
       }
@@ -52,7 +52,7 @@ const resolvers = {
       }).catch(Sequelize.ValidationError, (err) => {
         if (err.name === 'SequelizeUniqueConstraintError' || err.name === 'SequelizeValidationError') {
           throw new UserInputError('Please check your inputs', {
-            fields: err.errors.reduce((acc, error) => {
+            validationErrors: err.errors.reduce((acc, error) => {
               acc[error.path] = error.message;
               return acc;
             }, {}),

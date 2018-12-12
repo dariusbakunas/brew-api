@@ -1,4 +1,4 @@
-import { AuthenticationError, SchemaDirectiveVisitor } from 'apollo-server-express';
+import { AuthenticationError, SchemaDirectiveVisitor, ForbiddenError } from 'apollo-server-express';
 
 class HasScopeDirective extends SchemaDirectiveVisitor {
   visitFieldDefinition(field) {
@@ -13,7 +13,7 @@ class HasScopeDirective extends SchemaDirectiveVisitor {
           const result = await resolve.apply(this, args);
           return result;
         } else {
-          throw new AuthenticationError(`You are not authorized. Expected scopes: ${expectedScopes.join(', ')}`);
+          throw new ForbiddenError(`You are not authorized. Expected scopes: ${expectedScopes.join(', ')}`);
         }
       } else {
         throw new AuthenticationError(
