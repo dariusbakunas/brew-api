@@ -1,5 +1,6 @@
 import Sequelize from 'sequelize';
 import uuidv4 from 'uuid/v4';
+import moment from 'moment';
 import { ApolloError, AuthenticationError, UserInputError } from 'apollo-server-express';
 
 const { Op } = Sequelize;
@@ -17,6 +18,23 @@ const resolvers = {
     }),
   },
   Mutation: {
+    activateUser: async (_source, { input }, { dataSources }) => {
+      const { token } = input;
+
+      const user = await dataSources.db.User.findOne({
+        where: {
+          activationToken: token,
+        },
+      });
+
+      if (user && moment(user.activationTokenExp).isAfter(moment())) {
+        user.status = 'ACTIVE';
+        await user.save();
+        return { success: true };
+      }
+
+      return { success: false };
+    },
     register: async (_source, { input }, { dataSources, user }) => {
       const {
         email, firstName, lastName, username, code,
@@ -28,7 +46,7 @@ const resolvers = {
       }
 
       // find invitation
-      const invitation = await dataSources.db.Invitation.find({
+      const invitation = await dataSources.db.Invitation.findOne({
         where: {
           email: {
             [Op.eq]: email,
@@ -45,6 +63,7 @@ const resolvers = {
       }
 
       const activationToken = uuidv4();
+      const activationTokenExp = moment().add(process.env.USER_ACTIVATION_TIMEOUT, 'seconds');
 
       return dataSources.db.User.create({
         email,
@@ -53,6 +72,7 @@ const resolvers = {
         username,
         status: 'NEW',
         activationToken,
+        activationTokenExp,
       }).then((response) => {
         dataSources.emailSender.sendActivationEmail(email, activationToken);
         return response;

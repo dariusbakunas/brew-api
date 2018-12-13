@@ -23,6 +23,8 @@ const getUserScopes = (user) => {
     // cancel registration form, go back to login screen
     scopes.push('get:randomQuote');
     scopes.push('registerUser');
+  } else if (user.status === 'NEW') {
+    scopes.push('get:randomQuote');
   }
 
   if (user.initialAuth) {

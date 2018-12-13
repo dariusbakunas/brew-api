@@ -21,6 +21,14 @@ input RegistrationInput {
   code: String!
 }
 
+input ActivationInput {
+  token: String!
+}
+
+type ActivationResponse {
+  success: Boolean!
+}
+
 input UserInput {
   firstName: String
   lastName: String
@@ -34,5 +42,6 @@ extend type Query {
 }
 
 extend type Mutation {
+  activateUser(input: ActivationInput!): ActivationResponse!
   register(input: RegistrationInput!): User! @hasScope(scope: ["registerUser"])
 }
