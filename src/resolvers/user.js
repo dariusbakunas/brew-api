@@ -1,5 +1,6 @@
-const Sequelize = require('sequelize');
-const { ApolloError, AuthenticationError, UserInputError } = require('apollo-server-express');
+import Sequelize from 'sequelize';
+import uuidv4 from 'uuid/v4';
+import { ApolloError, AuthenticationError, UserInputError } from 'apollo-server-express';
 
 const { Op } = Sequelize;
 
@@ -43,12 +44,18 @@ const resolvers = {
         });
       }
 
+      const activationToken = uuidv4();
+
       return dataSources.db.User.create({
         email,
         firstName,
         lastName,
         username,
         status: 'NEW',
+        activationToken,
+      }).then((response) => {
+        dataSources.emailSender.sendActivationEmail(email, activationToken);
+        return response;
       }).catch(Sequelize.ValidationError, (err) => {
         if (err.name === 'SequelizeUniqueConstraintError' || err.name === 'SequelizeValidationError') {
           throw new UserInputError('Please check your inputs', {

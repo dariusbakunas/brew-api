@@ -8,8 +8,10 @@ import loadSchemas from './schema/loadSchemas';
 import db from './db/models/index';
 import resolvers from './resolvers/index';
 import hasScopeDirective from './directives/hasScopeDirective';
+import EmailSender from './email/emailSender';
 
 const typeDefs = loadSchemas();
+const emailSender = new EmailSender();
 
 const getUserScopes = (user) => {
   const scopes = [];
@@ -35,6 +37,7 @@ const server = new ApolloServer({
   resolvers,
   dataSources: () => ({
     db,
+    emailSender,
   }),
   schemaDirectives: {
     hasScope: hasScopeDirective,
