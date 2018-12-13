@@ -18,9 +18,7 @@ const resolvers = {
     }),
   },
   Mutation: {
-    activateUser: async (_source, { input }, { dataSources }) => {
-      const { token } = input;
-
+    activateUser: async (_source, { token }, { dataSources }) => {
       const user = await dataSources.db.User.findOne({
         where: {
           activationToken: token,
