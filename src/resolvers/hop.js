@@ -11,7 +11,7 @@ const resolvers = {
     }),
   },
   Mutation: {
-    addHop: (_source, { input }, { dataSources }) => dataSources.db.Hop.create(input)
+    createHop: (_source, { input }, { dataSources }) => dataSources.db.Hop.create(input)
       .then(hop => dataSources.db.Hop.findById(hop.id, {
         include: [{
           model: dataSources.db.Country,

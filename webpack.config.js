@@ -1,8 +1,28 @@
 const nodeExternals = require('webpack-node-externals');
 const path = require('path');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports = (env, argv) => {
   const dev = argv.mode !== 'production';
+
+  const serverPlugins = [
+    new CopyWebpackPlugin([
+      {
+        from: 'src/templates',
+        to: 'templates',
+        toType: 'dir',
+      },
+    ]),
+  ];
+
+  if (dev) {
+    serverPlugins.push(new webpack.BannerPlugin({
+      banner: 'require("source-map-support").install();',
+      raw: true,
+      entryOnly: false,
+    }));
+  }
 
   return {
     mode: dev ? 'development' : 'production',
@@ -13,7 +33,7 @@ module.exports = (env, argv) => {
       __filename: true,
       __dirname: true,
     },
-    devtool: 'sourcemap-inline',
+    devtool: 'sourcemap',
     output: {
       path: path.resolve(__dirname, 'dist'),
       publicPath: '/',
@@ -32,5 +52,6 @@ module.exports = (env, argv) => {
         },
       ],
     },
+    plugins: serverPlugins,
   };
 };

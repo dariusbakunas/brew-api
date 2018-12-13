@@ -1,9 +1,9 @@
+directive @hasScope(scope: [String]) on FIELD_DEFINITION
+
 type Query {
-  countries: [Country!]!
-  hops: [Hop!]!
+  _empty: String,
 }
 
-
 type Mutation {
-  addHop(input: HopInput!) : Hop!
+  _empty: String,
 }

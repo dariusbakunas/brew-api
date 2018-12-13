@@ -36,7 +36,12 @@ spec:
           value: docker.local.geekspace.us
         - name: SCHEMA_LOCATION
           value: './schema'
-        image: dariusbakunas/brew-api:latest
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: brew-app-jwt
+              key: secret
+        image: dariusbakunas/brew-api:0.0.3
         imagePullPolicy: Always
         name: brew-api
         ports:
