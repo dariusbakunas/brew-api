@@ -1,11 +1,20 @@
 const nodeExternals = require('webpack-node-externals');
 const path = require('path');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
 
 module.exports = (env, argv) => {
   const dev = argv.mode !== 'production';
 
-  const serverPlugins = [];
+  const serverPlugins = [
+    new CopyWebpackPlugin([
+      {
+        from: 'src/templates',
+        to: 'templates',
+        toType: 'dir',
+      },
+    ]),
+  ];
 
   if (dev) {
     serverPlugins.push(new webpack.BannerPlugin({
