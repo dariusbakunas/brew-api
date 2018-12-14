@@ -13,6 +13,11 @@ module.exports = (env, argv) => {
         to: 'templates',
         toType: 'dir',
       },
+      {
+        from: 'src/schema',
+        to: 'schema',
+        toType: 'dir',
+      },
     ]),
   ];
 
@@ -30,8 +35,8 @@ module.exports = (env, argv) => {
       server: './src/server.js',
     },
     node: {
-      __filename: true,
-      __dirname: true,
+      __filename: false,
+      __dirname: false,
     },
     devtool: 'sourcemap',
     output: {

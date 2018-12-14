@@ -4,7 +4,7 @@ import {
 import { graphql } from 'graphql';
 import loadSchemas from './loadSchemas';
 
-const typeDefs = loadSchemas();
+const typeDefs = loadSchemas(__dirname);
 
 const testGetAll = {
   id: 'Get All Countries',

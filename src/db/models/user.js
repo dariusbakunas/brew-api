@@ -27,6 +27,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: 'NEW',
     },
     activationToken: DataTypes.STRING,
+    activationTokenExp: DataTypes.DATE,
   }, {
     tableName: 'users',
   });

@@ -16,12 +16,9 @@ const emailSender = new EmailSender();
 const getUserScopes = (user) => {
   const scopes = [];
 
-  if (!user.status) {
-    // display random quote on login screen
-    scopes.push('get:randomQuote');
-  } else if (user.status === 'GUEST') {
-    // cancel registration form, go back to login screen
-    scopes.push('get:randomQuote');
+  scopes.push('get:randomQuote');
+
+  if (user.status === 'GUEST') {
     scopes.push('registerUser');
   }
 
