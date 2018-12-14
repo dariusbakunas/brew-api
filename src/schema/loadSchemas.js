@@ -1,13 +1,12 @@
 import fs from 'fs';
+import path from 'path';
 
-const schemaLocation = process.env.SCHEMA_LOCATION || __dirname;
-
-function loadSchemas() {
-  const mainSchema = fs.readFileSync(schemaLocation.concat('/main.graphql'), 'utf8');
-  const userSchema = fs.readFileSync(schemaLocation.concat('/user.graphql'), 'utf8');
-  const countrySchema = fs.readFileSync(schemaLocation.concat('/country.graphql'), 'utf8');
-  const hopSchema = fs.readFileSync(schemaLocation.concat('/hop.graphql'), 'utf8');
-  const quoteSchema = fs.readFileSync(schemaLocation.concat('/quote.graphql'), 'utf8');
+function loadSchemas(basePath = path.join(__dirname, './schema')) {
+  const mainSchema = fs.readFileSync(path.join(basePath, './main.graphql'), 'utf8');
+  const userSchema = fs.readFileSync(path.join(basePath, './user.graphql'), 'utf8');
+  const countrySchema = fs.readFileSync(path.join(basePath, './country.graphql'), 'utf8');
+  const hopSchema = fs.readFileSync(path.join(basePath, './hop.graphql'), 'utf8');
+  const quoteSchema = fs.readFileSync(path.join(basePath, './quote.graphql'), 'utf8');
   return [hopSchema, userSchema, mainSchema, countrySchema, quoteSchema].join('');
 }
 

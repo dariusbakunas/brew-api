@@ -36,8 +36,6 @@ spec:
           value: brew_api
         - name: PROD_DB_HOSTNAME
           value: docker.local.geekspace.us
-        - name: SCHEMA_LOCATION
-          value: './schema'
         - name: JWT_SECRET
           valueFrom:
             secretKeyRef:

@@ -12,7 +12,10 @@ class EmailSender {
 
       logger.info(`Sending activation email to ${email}`);
 
-      ejs.renderFile(path.join(__dirname, '../templates/activationEmail.ejs'), { url }, {}, (fileErr, str) => {
+      const template = path.join(__dirname, './templates/activationEmail.ejs');
+      logger.info(`Loading email template from: ${template}`);
+
+      ejs.renderFile(template, { url }, {}, (fileErr, str) => {
         if (fileErr) {
           logger.error(`Unable to load activation email template: ${fileErr.message}`);
           return reject(fileErr);
