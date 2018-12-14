@@ -27,6 +27,7 @@ const resolvers = {
 
       if (user && moment(user.activationTokenExp).isAfter(moment())) {
         user.status = 'ACTIVE';
+        user.activationTokenExp = null;
         await user.save();
         return { success: true };
       }
