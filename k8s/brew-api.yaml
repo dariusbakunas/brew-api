@@ -48,7 +48,9 @@ spec:
             secretKeyRef:
               name: sendgrid-api
               key: key
-        image: dariusbakunas/brew-api:0.0.3
+        - name: USER_ACTIVATION_TIMEOUT
+          value: '86400'
+        image: dariusbakunas/brew-api:0.0.14
         imagePullPolicy: Always
         name: brew-api
         ports:
