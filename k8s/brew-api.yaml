@@ -20,6 +20,8 @@ spec:
           value: info
         - name: NODE_ENV
           value: production
+        - name: BASE_URL
+          value: https://brew.geekspace.us
         - name: PROD_DB_USERNAME
           valueFrom:
             secretKeyRef:
@@ -41,6 +43,11 @@ spec:
             secretKeyRef:
               name: brew-app-jwt
               key: secret
+        - name: SENDGRID_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: sendgrid-api
+              key: key
         image: dariusbakunas/brew-api:0.0.3
         imagePullPolicy: Always
         name: brew-api

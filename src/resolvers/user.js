@@ -1,6 +1,7 @@
 import Sequelize from 'sequelize';
 import uuidv4 from 'uuid/v4';
 import moment from 'moment';
+import logger from '../logger';
 import { ApolloError, AuthenticationError, UserInputError } from 'apollo-server-express';
 
 const { Op } = Sequelize;
@@ -73,7 +74,11 @@ const resolvers = {
         activationToken,
         activationTokenExp,
       }).then((response) => {
-        dataSources.emailSender.sendActivationEmail(email, activationToken);
+        dataSources.emailSender
+          .sendActivationEmail(email, activationToken)
+          .catch((err) => {
+            logger.error(err);
+          });
         return response;
       }).catch(Sequelize.ValidationError, (err) => {
         if (err.name === 'SequelizeUniqueConstraintError' || err.name === 'SequelizeValidationError') {
