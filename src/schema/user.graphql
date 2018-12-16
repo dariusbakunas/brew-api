@@ -8,6 +8,7 @@ type User {
   id: ID!
   username: String!
   firstName: String
+  isAdmin: Boolean!
   lastName: String
   email: String!
   status: UserStatus!
@@ -33,7 +34,7 @@ input UserInput {
 }
 
 extend type Query {
-  users: [User!]!
+  users: [User!]! @hasScope(scope: ["listAllUsers"])
   userByEmail(email: String!): User @hasScope(scope: ["activeUser", "initialAuth"])
 }
 
