@@ -13,21 +13,6 @@ import EmailSender from './email/emailSender';
 const typeDefs = loadSchemas();
 const emailSender = new EmailSender();
 
-const getUserScopes = (user) => {
-  const scopes = [];
-
-  scopes.push('get:randomQuote');
-
-  if (user.status === 'GUEST') {
-    scopes.push('registerUser');
-  }
-
-  if (user.initialAuth) {
-    scopes.push('initialAuth');
-  }
-
-  return scopes;
-};
 
 const server = new ApolloServer({
   typeDefs,
@@ -40,12 +25,7 @@ const server = new ApolloServer({
     hasScope: hasScopeDirective,
   },
   context: async ({ req }) => {
-    const user = {
-      ...req.user,
-      scopes: getUserScopes(req.user),
-    };
-
-    return { user };
+    return { user: req.user };
   },
 });
 

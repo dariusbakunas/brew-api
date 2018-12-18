@@ -12,6 +12,7 @@ type User {
   lastName: String
   email: String!
   status: UserStatus!
+  scopes: [String!]!
 }
 
 input RegistrationInput {

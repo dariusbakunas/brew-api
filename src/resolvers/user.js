@@ -3,6 +3,7 @@ import uuidv4 from 'uuid/v4';
 import moment from 'moment';
 import logger from '../logger';
 import { ApolloError, AuthenticationError, UserInputError } from 'apollo-server-express';
+import getUserScopes from '../permissions/getUserScopes';
 
 const { Op } = Sequelize;
 
@@ -92,6 +93,11 @@ const resolvers = {
           throw new ApolloError(err.message);
         }
       });
+    },
+  },
+  User: {
+    scopes: (source, _args, { dataSources, user }) => {
+      return getUserScopes(source);
     },
   },
 };
