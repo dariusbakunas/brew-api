@@ -9,8 +9,9 @@ const { Op } = Sequelize;
 
 const resolvers = {
   Query: {
-    users: async (_source, _args, { dataSources }) => dataSources.db.User.findAll(),
-    userByEmail: async (_source, { email }, { dataSources }) => dataSources.db.User.find({
+    invitations: (_source, _args, { dataSources }) => dataSources.db.Invitation.findAll(),
+    users: (_source, _args, { dataSources }) => dataSources.db.User.findAll(),
+    userByEmail: (_source, { email }, { dataSources }) => dataSources.db.User.find({
       where: {
         email: {
           [Op.eq]: email,
@@ -35,6 +36,31 @@ const resolvers = {
       }
 
       return { success: false };
+    },
+    removeUser: async (_source, { id }, { dataSources }) => {
+      const user = await dataSources.db.User.findById(id);
+
+      if (!user) {
+        throw new UserInputError('User does not exist');
+      }
+
+      await user.destroy();
+      return id;
+    },
+    deleteInvitation: async (_source, { email }, { dataSources }) => {
+      const invitation = await dataSources.db.Invitation.findOne({
+        where: {
+          email,
+        },
+      });
+
+      if (!invitation) {
+        throw new UserInputError(`invitation for ${email} not found`);
+      }
+
+      const { id } = invitation;
+      await invitation.destroy();
+      return id;
     },
     register: async (_source, { input }, { dataSources, user }) => {
       const {
