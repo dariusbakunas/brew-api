@@ -8,9 +8,11 @@ type User {
   id: ID!
   username: String!
   firstName: String
+  isAdmin: Boolean!
   lastName: String
   email: String!
   status: UserStatus!
+  scopes: [String!]!
 }
 
 input RegistrationInput {
@@ -32,12 +34,21 @@ input UserInput {
   email: String!
 }
 
+type Invitation {
+  id: ID!
+  code: String!
+  email: String!
+}
+
 extend type Query {
-  users: [User!]!
+  invitations: [Invitation!]! @hasScope(scope: ["listAllInvitations"])
+  users: [User!]! @hasScope(scope: ["listAllUsers"])
   userByEmail(email: String!): User @hasScope(scope: ["activeUser", "initialAuth"])
 }
 
 extend type Mutation {
   activateUser(token: String!): ActivationResponse!
+  removeUser(id: ID!): ID! @hasScope(scope: ["removeUser"])
+  deleteInvitation(email: String!): ID!
   register(input: RegistrationInput!): User! @hasScope(scope: ["registerUser"])
 }

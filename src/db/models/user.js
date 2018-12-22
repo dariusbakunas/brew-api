@@ -26,6 +26,11 @@ module.exports = (sequelize, DataTypes) => {
       values: ['NEW', 'ACTIVE', 'INACTIVE'],
       defaultValue: 'NEW',
     },
+    isAdmin: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
     activationToken: DataTypes.STRING,
     activationTokenExp: DataTypes.DATE,
   }, {

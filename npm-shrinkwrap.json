@@ -1,6 +1,6 @@
 {
   "name": "brew-api",
-  "version": "0.0.6",
+  "version": "0.0.18",
   "lockfileVersion": 1,
   "requires": true,
   "dependencies": {
@@ -7894,6 +7894,12 @@
           "dev": true
         }
       }
+    },
+    "mockdate": {
+      "version": "2.0.2",
+      "resolved": "https://registry.npmjs.org/mockdate/-/mockdate-2.0.2.tgz",
+      "integrity": "sha1-WuDA6vj+I+AJzQH5iJtCxPY0rxI=",
+      "dev": true
     },
     "moment": {
       "version": "2.22.2",
