@@ -82,7 +82,7 @@ const resolvers = {
       });
 
       if (!invitation || invitation.code !== code) {
-        throw new UserInputError('Please check your inputs', {
+        throw new UserInputError('Invitation code mismatch', {
           validationErrors: {
             code: 'Invalid code',
           },
