@@ -4,6 +4,7 @@ import moment from 'moment';
 import logger from '../logger';
 import { ApolloError, AuthenticationError, UserInputError } from 'apollo-server-express';
 import getUserScopes from '../permissions/getUserScopes';
+import handleError from './handleError';
 
 const { Op } = Sequelize;
 
@@ -36,6 +37,30 @@ const resolvers = {
       }
 
       return { success: false };
+    },
+    createInvitation: async (_source, { email, sendEmail }, { dataSources }) => {
+      const { db, emailSender } = dataSources;
+
+      const code = uuidv4();
+
+      try {
+        const result = await db.Invitation.create({
+          code,
+          email,
+        });
+
+        if (sendEmail) {
+          try {
+            await emailSender.sendInvitationEmail(email, code);
+          } catch (err) {
+            logger.error(err);
+          }
+        }
+
+        return result;
+      } catch (err) {
+        handleError(err);
+      }
     },
     removeUser: async (_source, { id }, { dataSources }) => {
       const user = await dataSources.db.User.findById(id);
@@ -107,17 +132,7 @@ const resolvers = {
         await invitation.destroy();
         return newUser;
       } catch (err) {
-        if (err.name === 'SequelizeUniqueConstraintError' || err.name === 'SequelizeValidationError') {
-          throw new UserInputError('Please check your inputs', {
-            validationErrors: err.errors.reduce((acc, error) => {
-              acc[error.path] = error.message;
-              return acc;
-            }, {}),
-          });
-        } else {
-          logger.error(err);
-          throw new ApolloError(err.message);
-        }
+        handleError(err);
       }
     },
   },
