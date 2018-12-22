@@ -1,3 +1,9 @@
+# Brew-API
+
+| master        | dev           |
+| ------------- | ------------- |
+| [![Build Status](https://travis-ci.org/dariusbakunas/brew-api.svg?branch=master)](https://travis-ci.org/dariusbakunas/brew-api)  | [![Build Status](https://travis-ci.org/dariusbakunas/brew-api.svg?branch=dev)](https://travis-ci.org/dariusbakunas/brew-api)  |
+
 ## Starting Local dev database
 
     % docker-compose -f db.yaml up
