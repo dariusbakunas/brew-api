@@ -2,7 +2,8 @@
 
 | master        | dev           |
 | ------------- | ------------- |
-| [![Build Status](https://travis-ci.org/dariusbakunas/brew-api.svg?branch=master)](https://travis-ci.org/dariusbakunas/brew-api)  | [![Build Status](https://travis-ci.org/dariusbakunas/brew-api.svg?branch=dev)](https://travis-ci.org/dariusbakunas/brew-api)  |
+| [![Build Status](https://travis-ci.org/dariusbakunas/brew-api.svg?branch=master)](https://travis-ci.org/dariusbakunas/brew-api) | [![Build Status](https://travis-ci.org/dariusbakunas/brew-api.svg?branch=dev)](https://travis-ci.org/dariusbakunas/brew-api)  |
+| [![Coverage Status](https://coveralls.io/repos/github/dariusbakunas/brew-api/badge.svg?branch=master)](https://coveralls.io/github/dariusbakunas/brew-api?branch=master) | [![Coverage Status](https://coveralls.io/repos/github/dariusbakunas/brew-api/badge.svg?branch=dev)](https://coveralls.io/github/dariusbakunas/brew-api?branch=dev)             |
 
 ## Starting Local dev database
 
