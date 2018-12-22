@@ -48,7 +48,8 @@ extend type Query {
 
 extend type Mutation {
   activateUser(token: String!): ActivationResponse!
-  removeUser(id: ID!): ID! @hasScope(scope: ["removeUser"])
-  deleteInvitation(email: String!): ID!
+  createInvitation(email: String!, sendEmail: Boolean): Invitation! @hasScope(scope: ["createInvitation"])
+  deleteInvitation(email: String!): ID! @hasScope(scope: ["deleteInvitation"])
   register(input: RegistrationInput!): User! @hasScope(scope: ["registerUser"])
+  removeUser(id: ID!): ID! @hasScope(scope: ["removeUser"])
 }

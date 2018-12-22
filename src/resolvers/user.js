@@ -2,7 +2,7 @@ import Sequelize from 'sequelize';
 import uuidv4 from 'uuid/v4';
 import moment from 'moment';
 import logger from '../logger';
-import { ApolloError, AuthenticationError, UserInputError } from 'apollo-server-express';
+import { AuthenticationError, UserInputError } from 'apollo-server-express';
 import getUserScopes from '../permissions/getUserScopes';
 import handleError from './handleError';
 
