@@ -12,7 +12,8 @@
     "db:dev": "cross-env NODE_ENV=development sequelize",
     "db:prod": "cross-env NODE_ENV=production sequelize",
     "token:gen": "node -r dotenv/config scripts/token.js",
-    "test": "jest"
+    "test": "jest",
+    "coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls"
   },
   "repository": {
     "type": "git",
@@ -51,6 +52,7 @@
     "babel-loader": "^8.0.4",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "copy-webpack-plugin": "^4.6.0",
+    "coveralls": "^3.0.2",
     "cross-env": "^5.2.0",
     "dotenv": "^6.1.0",
     "eslint": "^5.9.0",

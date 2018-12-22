@@ -1,4 +1,5 @@
 const SCOPES = {
+  CREATE_INVITATION: 'createInvitation',
   GET_RANDOM_QUOTE: 'getRandomQuote',
   INITIAL_AUTH: 'initialAuth',
   LIST_ALL_INVITATIONS: 'listAllInvitations',
