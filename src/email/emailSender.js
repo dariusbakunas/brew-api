@@ -41,6 +41,42 @@ class EmailSender {
       });
     });
   }
+
+  sendInvitationEmail(email, invitationCode) {
+    return new Promise((resolve, reject) => {
+      // TODO: pass the code to login url and pre-populate registration form
+      const url = `${process.env.BASE_URL}/login`;
+
+      logger.info(`Sending invitation email to ${email}`);
+
+      const template = path.join(__dirname, './templates/invitationEmail.ejs');
+
+      ejs.renderFile(template, { url, code: invitationCode }, {}, (fileErr, str) => {
+        if (fileErr) {
+          logger.error(`Unable to load invitation email template: ${fileErr.message}`);
+          return reject(fileErr);
+        }
+
+        const msg = {
+          to: email,
+          from: 'noreply@brew.geekspace.us',
+          subject: 'Brew Beer Invitation',
+          text: `Please go to this url to register your account: ${url}, use this code: ${invitationCode}`,
+          html: str,
+        };
+
+        return sgMail.send(msg)
+          .then((response) => {
+            logger.info('Invitation email sent successfully');
+            resolve(response);
+          })
+          .catch((err) => {
+            logger.error(`Failed sending invitation email: ${err.message}`);
+            reject(err);
+          });
+      });
+    });
+  }
 }
 
 export default EmailSender;
