@@ -15,5 +15,5 @@ if (!username) {
 
 const allScopes = Object.values(SCOPES);
 
-const token = jwt.sign({ user: username, scopes: allScopes }, process.env.JWT_SECRET);
+const token = jwt.sign({ user: { username, scopes: allScopes } }, process.env.JWT_SECRET);
 logger.info(`YOUR TOKEN: ${token}`);
