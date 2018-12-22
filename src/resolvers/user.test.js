@@ -135,9 +135,14 @@ describe('User', () => {
 
       process.env.USER_ACTIVATION_TIMEOUT = '86400'; // 24 hours
 
+      const invitation = {
+        code: CODE,
+        destroy: jest.fn().mockResolvedValueOnce(true),
+      };
+
       const dbMock = {
         Invitation: {
-          findOne: jest.fn().mockResolvedValueOnce({ code: CODE }),
+          findOne: jest.fn().mockResolvedValueOnce(invitation),
         },
         User: {
           create: jest.fn().mockResolvedValueOnce({
@@ -166,12 +171,15 @@ describe('User', () => {
       await userResolvers.Mutation.register(
         null, { input: { ...input, code: CODE } }, { dataSources, user: { email: input.email } },
       );
+
       expect(dbMock.User.create).toHaveBeenCalledWith({
         ...input,
         activationToken: 'test-uuid-123456',
         activationTokenExp: moment().add(process.env.USER_ACTIVATION_TIMEOUT, 'seconds'),
         status: 'NEW',
       });
+
+      expect(invitation.destroy).toHaveBeenCalledTimes(1);
     });
   });
 });

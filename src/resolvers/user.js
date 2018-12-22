@@ -92,22 +92,21 @@ const resolvers = {
       const activationToken = uuidv4();
       const activationTokenExp = moment().add(process.env.USER_ACTIVATION_TIMEOUT, 'seconds');
 
-      return dataSources.db.User.create({
-        email,
-        firstName,
-        lastName,
-        username,
-        status: 'NEW',
-        activationToken,
-        activationTokenExp,
-      }).then((response) => {
-        dataSources.emailSender
-          .sendActivationEmail(email, activationToken)
-          .catch((err) => {
-            logger.error(err);
-          });
-        return response;
-      }).catch(Sequelize.ValidationError, (err) => {
+      try {
+        const newUser = await dataSources.db.User.create({
+          email,
+          firstName,
+          lastName,
+          username,
+          status: 'NEW',
+          activationToken,
+          activationTokenExp,
+        });
+
+        await dataSources.emailSender.sendActivationEmail(email, activationToken);
+        await invitation.destroy();
+        return newUser;
+      } catch (err) {
         if (err.name === 'SequelizeUniqueConstraintError' || err.name === 'SequelizeValidationError') {
           throw new UserInputError('Please check your inputs', {
             validationErrors: err.errors.reduce((acc, error) => {
@@ -116,9 +115,10 @@ const resolvers = {
             }, {}),
           });
         } else {
+          logger.error(err);
           throw new ApolloError(err.message);
         }
-      });
+      }
     },
   },
   User: {
