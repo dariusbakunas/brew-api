@@ -8,7 +8,7 @@ jest.mock('uuid/v4', () => jest.fn().mockImplementation(() => 'test-uuid-123456'
 
 const TOKEN = 'abcde123';
 
-describe('Mutation', () => {
+describe('User', () => {
   beforeEach(() => {
     uuidv4.mockClear();
     MockDate.set('2018-12-22');
