@@ -5,22 +5,30 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
     },
     aaLow: {
-      allowNull: false,
+      allowNull: true,
       type: DataTypes.FLOAT,
     },
     aaHigh: {
-      allowNull: false,
+      allowNull: true,
       type: DataTypes.FLOAT,
     },
+    betaLow: {
+      allowNull: true,
+      type: DataTypes.FLOAT,
+    },
+    betaHigh: {
+      allowNull: true,
+      type: DataTypes.FLOAT,
+    },
+    aroma: {
+      allowNull: false,
+      type: DataTypes.BOOLEAN,
+    },
+    bittering: {
+      allowNull: false,
+      type: DataTypes.BOOLEAN,
+    },
     description: DataTypes.TEXT,
-    usage: {
-      allowNull: false,
-      type: DataTypes.STRING,
-    },
-    flavorProfile: {
-      allowNull: false,
-      type: DataTypes.ARRAY(DataTypes.STRING),
-    },
   }, {
     tableName: 'hops',
   });
