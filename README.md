@@ -11,6 +11,9 @@
 
 ## Sequelize CLI:
 
+    # generating migration
+    % sequelize migration:generate --name migration-name
+
     # migrating schema
     % npm run db:[dev|prod] db:migrate
     
