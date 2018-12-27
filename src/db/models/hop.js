@@ -7,18 +7,34 @@ module.exports = (sequelize, DataTypes) => {
     aaLow: {
       allowNull: true,
       type: DataTypes.FLOAT,
+      validate: {
+        min: 0,
+        max: 100,
+      },
     },
     aaHigh: {
       allowNull: true,
       type: DataTypes.FLOAT,
+      validate: {
+        min: 0,
+        max: 100,
+      },
     },
     betaLow: {
       allowNull: true,
       type: DataTypes.FLOAT,
+      validate: {
+        min: 0,
+        max: 100,
+      },
     },
     betaHigh: {
       allowNull: true,
       type: DataTypes.FLOAT,
+      validate: {
+        min: 0,
+        max: 100,
+      },
     },
     aroma: {
       allowNull: false,
