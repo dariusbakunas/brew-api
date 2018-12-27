@@ -1,5 +1,6 @@
 import { UserInputError, ApolloError } from 'apollo-server-express';
 import Sequelize from 'sequelize';
+import handleError from './handleError';
 
 const resolvers = {
   Query: {
@@ -19,23 +20,37 @@ const resolvers = {
         }],
       }))
       .catch((err) => {
-        const message = err.original ? err.original.message : err.message;
+        handleError(err);
+      }),
+    updateHop: async (_source, { id, input }, { dataSources }) => {
+      const result = await dataSources.db.Hop.update(
+        input,
+        {
+          where: {
+            id: {
+              [Sequelize.Op.eq]: id,
+            },
+          },
+          returning: true,
+          plain: true,
+        },
+      );
 
-        if (err instanceof Sequelize.ValidationError) {
-          const { errors } = err;
-          throw new UserInputError(message, {
-            errors: errors.map(error => ({
-              message: error.message,
-              type: error.type,
-              path: error.path,
-              value: error.value,
-            })),
-          });
-        } else {
-          throw new ApolloError(message);
-        }
-      })
-    ,
+      return result[1].dataValues;
+    },
+    removeHop: async (_source, { id }, { dataSources }) => {
+      const hop = await dataSources.db.Hop.findById(id);
+
+      if (!hop) {
+        throw new UserInputError('Hop does not exist');
+      }
+
+      await hop.destroy();
+      return id;
+    },
+  },
+  Hop: {
+    origin: (parent, _args, { dataSources }) => dataSources.db.Country.findById(parent.originId),
   },
 };
 

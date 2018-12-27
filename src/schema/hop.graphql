@@ -27,5 +27,7 @@ extend type Query {
   hops: [Hop!]! @hasScope(scope: ["activeUser"])
 }
 extend type Mutation {
-  createHop(input: HopInput!) : Hop! @hasScope(scope: ["activeUser"])
+  createHop(input: HopInput!) : Hop! @hasScope(scope: ["activeUser", "createHop"])
+  updateHop(id: ID!, input: HopInput!) : Hop! @hasScope(scope: ["updateHop"])
+  removeHop(id: ID!): ID! @hasScope(scope: ["removeHop"])
 }

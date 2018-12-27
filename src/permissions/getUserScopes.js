@@ -13,6 +13,10 @@ const getUserScopes = (user) => {
     scopes.push(SCOPES.REGISTER_USER);
   }
 
+  if (user.status === 'ACTIVE') {
+    scopes.push(SCOPES.ACTIVE_USER);
+  }
+
   return scopes;
 };
 
