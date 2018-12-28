@@ -1,5 +1,7 @@
-import { UserInputError, ApolloError } from 'apollo-server-express';
+import { UserInputError } from 'apollo-server-express';
 import Sequelize from 'sequelize';
+import btoa from 'btoa';
+import atob from 'atob';
 import handleError from './handleError';
 
 const resolvers = {
@@ -10,6 +12,38 @@ const resolvers = {
         as: 'origin',
       }],
     }),
+    pagedHops: async (_source, { cursor, limit }, { dataSources }) => {
+      const query = {
+        include: [{
+          model: dataSources.db.Country,
+          as: 'origin',
+        }],
+        limit: limit + 1,
+      };
+
+      if (cursor) {
+        query.where = {
+          id: {
+            [Sequelize.Op.gte]: atob(cursor),
+          },
+        };
+      }
+
+      const hops = await dataSources.db.Hop.findAll(query);
+      let nextCursor = null;
+
+      if (hops.length > limit) {
+        nextCursor = btoa(hops[hops.length - 1].id);
+        hops.splice(-1, 1);
+      }
+
+      return {
+        hops,
+        metadata: {
+          nextCursor,
+        },
+      };
+    },
   },
   Mutation: {
     createHop: (_source, { input }, { dataSources }) => dataSources.db.Hop.create(input)

@@ -23,7 +23,17 @@ input HopInput {
   originId: ID!
 }
 
+type Metadata {
+  nextCursor: String
+}
+
+type HopsResponse {
+  metadata: Metadata!
+  hops: [Hop!]!
+}
+
 extend type Query {
+  pagedHops(cursor: String, limit: Int!): HopsResponse! @hasScope(scope: ["activeUser"])
   hops: [Hop!]! @hasScope(scope: ["activeUser"])
 }
 extend type Mutation {
