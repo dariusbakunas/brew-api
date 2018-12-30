@@ -6,12 +6,6 @@ import handleError from './handleError';
 
 const resolvers = {
   Query: {
-    hops: async (_source, _args, { dataSources }) => dataSources.db.Hop.findAll({
-      include: [{
-        model: dataSources.db.Country,
-        as: 'origin',
-      }],
-    }),
     pagedHops: async (_source, {
       cursor, limit, sortBy, sortDirection,
     }, { dataSources }) => {

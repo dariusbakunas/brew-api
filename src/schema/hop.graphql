@@ -49,7 +49,6 @@ extend type Query {
     sortDirection: SortDirection = ASCENDING,
     sortBy: SortableHopField
   ): HopsResponse! @hasScope(scope: ["activeUser"])
-  hops: [Hop!]! @hasScope(scope: ["activeUser"])
 }
 extend type Mutation {
   createHop(input: HopInput!) : Hop! @hasScope(scope: ["activeUser", "createHop"])
