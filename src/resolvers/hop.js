@@ -23,36 +23,47 @@ const resolvers = {
       const whereOp = sortDirection === 'ASCENDING' ? Sequelize.Op.gte : Sequelize.Op.lte;
 
       query.order = [
-        [sortBy, direction],
         ['id', direction],
       ];
+
+      if (sortBy) {
+        query.order.unshift([sortBy, direction]);
+      }
 
       if (cursor) {
         const cobj = JSON.parse(atob(cursor));
 
-        query.where = {
-          [sortBy]: {
-            [whereOp]: cobj[sortBy],
-          },
-          id: {
-            [whereOp]: cobj.id,
-          },
-        };
+        query.where = cobj.reduce((acc, field) => {
+          acc[field.key] = {
+            [whereOp]: field.value,
+          };
+
+          return acc;
+        }, {});
       }
 
       const hops = await dataSources.db.Hop.findAll(query);
       let nextCursor = null;
 
+      // nextCursor is only available if there is another page
       if (hops.length > limit) {
         const nextHop = hops[hops.length - 1];
-        nextCursor = btoa(JSON.stringify({ [sortBy]: nextHop[sortBy], id: nextHop.id }));
+
+        nextCursor = [
+          { key: 'id', value: nextHop.id },
+        ];
+
+        if (sortBy) {
+          nextCursor.unshift({ key: sortBy, value: nextHop[sortBy] });
+        }
+
         hops.splice(-1, 1);
       }
 
       return {
         hops,
         metadata: {
-          nextCursor,
+          nextCursor: nextCursor ? btoa(JSON.stringify(nextCursor)) : null,
           currentCursor: cursor,
         },
       };
