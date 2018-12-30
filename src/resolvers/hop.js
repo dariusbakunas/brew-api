@@ -9,6 +9,10 @@ const resolvers = {
     pagedHops: async (_source, {
       cursor: encodedCursor, limit, sortBy, sortDirection,
     }, { dataSources }) => {
+      if (limit > 100) {
+        throw new UserInputError('Only 100 hops can be requested at a time');
+      }
+
       const query = {
         limit: limit + 1,
       };
