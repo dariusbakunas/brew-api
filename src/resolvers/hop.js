@@ -12,19 +12,30 @@ const resolvers = {
         as: 'origin',
       }],
     }),
-    pagedHops: async (_source, { cursor, limit }, { dataSources }) => {
+    pagedHops: async (_source, {
+      cursor, limit, sortBy, sortDirection,
+    }, { dataSources }) => {
       const query = {
-        include: [{
-          model: dataSources.db.Country,
-          as: 'origin',
-        }],
         limit: limit + 1,
       };
 
+      const direction = sortDirection === 'ASCENDING' ? 'ASC' : 'DESC';
+      const whereOp = sortDirection === 'ASCENDING' ? Sequelize.Op.gte : Sequelize.Op.lte;
+
+      query.order = [
+        [sortBy, direction],
+        ['id', direction],
+      ];
+
       if (cursor) {
+        const cobj = JSON.parse(atob(cursor));
+
         query.where = {
+          [sortBy]: {
+            [whereOp]: cobj[sortBy],
+          },
           id: {
-            [Sequelize.Op.gte]: atob(cursor),
+            [whereOp]: cobj.id,
           },
         };
       }
@@ -33,7 +44,8 @@ const resolvers = {
       let nextCursor = null;
 
       if (hops.length > limit) {
-        nextCursor = btoa(hops[hops.length - 1].id);
+        const nextHop = hops[hops.length - 1];
+        nextCursor = btoa(JSON.stringify({ [sortBy]: nextHop[sortBy], id: nextHop.id }));
         hops.splice(-1, 1);
       }
 
@@ -41,6 +53,7 @@ const resolvers = {
         hops,
         metadata: {
           nextCursor,
+          currentCursor: cursor,
         },
       };
     },
@@ -84,7 +97,10 @@ const resolvers = {
     },
   },
   Hop: {
-    origin: (parent, _args, { dataSources }) => dataSources.db.Country.findById(parent.originId),
+    // TODO: use data loaders to optimize
+    origin: (parent, _args, { dataSources }) => {
+      return dataSources.db.Country.findById(parent.originId);
+    },
   },
 };
 

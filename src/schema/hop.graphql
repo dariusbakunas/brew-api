@@ -23,7 +23,17 @@ input HopInput {
   originId: ID!
 }
 
+enum SortDirection {
+  ASCENDING
+  DESCENDING
+}
+
+enum SortableHopField {
+  name
+}
+
 type Metadata {
+  currentCursor: String
   nextCursor: String
 }
 
@@ -33,7 +43,12 @@ type HopsResponse {
 }
 
 extend type Query {
-  pagedHops(cursor: String, limit: Int!): HopsResponse! @hasScope(scope: ["activeUser"])
+  pagedHops(
+    cursor: String,
+    limit: Int!,
+    sortDirection: SortDirection = ASCENDING,
+    sortBy: SortableHopField = name
+  ): HopsResponse! @hasScope(scope: ["activeUser"])
   hops: [Hop!]! @hasScope(scope: ["activeUser"])
 }
 extend type Mutation {
