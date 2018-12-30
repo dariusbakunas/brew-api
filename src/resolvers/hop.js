@@ -7,7 +7,7 @@ import handleError from './handleError';
 const resolvers = {
   Query: {
     pagedHops: async (_source, {
-      cursor, limit, sortBy, sortDirection,
+      cursor: encodedCursor, limit, sortBy, sortDirection,
     }, { dataSources }) => {
       const query = {
         limit: limit + 1,
@@ -24,10 +24,10 @@ const resolvers = {
         query.order.unshift([sortBy, direction]);
       }
 
-      if (cursor) {
-        const cobj = JSON.parse(atob(cursor));
+      if (encodedCursor) {
+        const cursor = JSON.parse(atob(encodedCursor));
 
-        query.where = cobj.reduce((acc, field) => {
+        query.where = cursor.reduce((acc, field) => {
           acc[field.key] = {
             [whereOp]: field.value,
           };
@@ -56,9 +56,9 @@ const resolvers = {
 
       return {
         hops,
-        metadata: {
+        paging: {
           nextCursor: nextCursor ? btoa(JSON.stringify(nextCursor)) : null,
-          currentCursor: cursor,
+          currentCursor: encodedCursor,
         },
       };
     },

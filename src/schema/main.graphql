@@ -1,5 +1,15 @@
 directive @hasScope(scope: [String]) on FIELD_DEFINITION
 
+enum SortDirection {
+  ASCENDING
+  DESCENDING
+}
+
+type Paging {
+  currentCursor: String
+  nextCursor: String
+}
+
 type Query {
   _empty: String,
 }

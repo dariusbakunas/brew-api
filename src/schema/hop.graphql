@@ -23,22 +23,12 @@ input HopInput {
   originId: ID!
 }
 
-enum SortDirection {
-  ASCENDING
-  DESCENDING
-}
-
 enum SortableHopField {
   name
 }
 
-type Metadata {
-  currentCursor: String
-  nextCursor: String
-}
-
 type HopsResponse {
-  metadata: Metadata!
+  paging: Paging!
   hops: [Hop!]!
 }
 
