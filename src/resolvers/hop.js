@@ -8,7 +8,7 @@ const resolvers = {
     pagedHops: async (_source, {
       cursor: encodedCursor, limit, sortBy, sortDirection,
     }, { dataSources }) => {
-      const query = getPagedQuery(encodedCursor, limit + 1, sortBy, sortDirection);
+      const query = getPagedQuery(encodedCursor, limit, sortBy, sortDirection);
       const hops = await dataSources.db.Hop.findAll(query);
       let nextCursor = null;
 

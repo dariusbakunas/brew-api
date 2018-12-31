@@ -9,7 +9,8 @@ export const getPagedQuery = (encodedCursor, limit, sortBy, sortDirection) => {
   }
 
   const query = {
-    limit,
+    // should get one extra item for next cursor if available
+    limit: limit + 1,
   };
 
   const direction = sortDirection === 'ASCENDING' ? 'ASC' : 'DESC';

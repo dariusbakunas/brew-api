@@ -7,7 +7,7 @@ describe('paging', () => {
     it('should return valid query if no cursor provided', () => {
       const query = getPagedQuery(null, 20, 'name', 'ASCENDING');
       expect(query).toEqual({
-        limit: 20,
+        limit: 21,
         order: [
           ['name', 'ASC'],
           ['id', 'ASC'],
@@ -19,7 +19,7 @@ describe('paging', () => {
       const testCursor = 'W3sia2V5IjoibmFtZSIsInZhbHVlIjoiQXBvbG9uIn0seyJrZXkiOiJpZCIsInZhbHVlIjo0NH1d';
       const query = getPagedQuery(testCursor, 20, 'name', 'ASCENDING');
       expect(query).toEqual({
-        limit: 20,
+        limit: 21,
         order: [
           ['name', 'ASC'],
           ['id', 'ASC'],
