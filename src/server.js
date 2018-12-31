@@ -27,6 +27,10 @@ const server = new ApolloServer({
   context: async ({ req }) => {
     return { user: req.user };
   },
+  formatError: error => {
+    logger.error(error.message);
+    return error;
+  },
 });
 
 const passportOpts = {
