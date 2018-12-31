@@ -34,6 +34,8 @@
     "ejs": "^2.6.1",
     "express": "^4.16.4",
     "graphql": "^14.0.2",
+    "graphql-middleware": "^3.0.0",
+    "graphql-shield": "^5.1.0",
     "lodash.merge": "^4.6.1",
     "moment": "^2.23.0",
     "morgan": "^1.9.1",
