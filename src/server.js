@@ -3,27 +3,32 @@ import morgan from 'morgan';
 import { ApolloServer } from 'apollo-server-express';
 import passport from 'passport';
 import { Strategy, ExtractJwt } from 'passport-jwt';
+import { applyMiddleware } from 'graphql-middleware';
+import { makeExecutableSchema } from 'graphql-tools';
 import logger from './logger';
 import loadSchemas from './schema/loadSchemas';
 import db from './db/models/index';
 import resolvers from './resolvers/index';
-import hasPermissionDirective from './directives/hasPermissionDirective';
 import EmailSender from './email/emailSender';
+import permissionMiddleware from './permissions/middleware';
 
 const typeDefs = loadSchemas();
 const emailSender = new EmailSender();
 
+const schema = applyMiddleware(
+  makeExecutableSchema({
+    typeDefs,
+    resolvers,
+  }),
+  permissionMiddleware,
+);
 
 const server = new ApolloServer({
-  typeDefs,
-  resolvers,
+  schema,
   dataSources: () => ({
     db,
     emailSender,
   }),
-  schemaDirectives: {
-    hasPermission: hasPermissionDirective,
-  },
   context: async ({ req }) => {
     return { user: req.user };
   },

@@ -4,5 +4,5 @@ type Quote {
 }
 
 extend type Query {
-  randomQuote: Quote! @hasPermission(permissions: ["getRandomQuote"])
+  randomQuote: Quote!
 }

@@ -3,7 +3,6 @@ import uuidv4 from 'uuid/v4';
 import moment from 'moment';
 import { AuthenticationError, UserInputError } from 'apollo-server-express';
 import logger from '../logger';
-import getUserPermissions from '../permissions/getUserPermissions';
 import handleError from './handleError';
 
 const { Op } = Sequelize;
@@ -138,11 +137,6 @@ const resolvers = {
       } catch (err) {
         handleError(err);
       }
-    },
-  },
-  User: {
-    permissions: (source, _args, { dataSources, user }) => {
-      return getUserPermissions(source);
     },
   },
 };

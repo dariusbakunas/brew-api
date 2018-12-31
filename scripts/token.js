@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken');
 const username = process.argv[2];
 const logger = require('../src/logger');
-const PERMISSIONS = require('../src/permissions/permissions');
 
 if (!process.env.JWT_SECRET) {
   logger.error('process.env.JWT_SECRET must be specified');
@@ -13,7 +12,5 @@ if (!username) {
   process.exit(1);
 }
 
-const allPermissions = Object.values(PERMISSIONS);
-
-const token = jwt.sign({ user: { username, permissions: allPermissions } }, process.env.JWT_SECRET);
+const token = jwt.sign({ user: { username, isAdmin: true } }, process.env.JWT_SECRET);
 logger.info(`YOUR TOKEN: ${token}`);

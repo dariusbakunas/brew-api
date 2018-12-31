@@ -1,5 +1,3 @@
-directive @hasPermission(permissions: [String]) on FIELD_DEFINITION
-
 enum SortDirection {
   ASCENDING
   DESCENDING

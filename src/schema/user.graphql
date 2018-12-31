@@ -16,7 +16,6 @@ type User {
   lastName: String
   email: String!
   status: UserStatus!
-  permissions: [String!]!
   roles: [Role!]!
 }
 
@@ -46,15 +45,15 @@ type Invitation {
 }
 
 extend type Query {
-  invitations: [Invitation!]! @hasPermission(permissions: ["getAllInvitations"])
-  users: [User!]! @hasPermission(permissions: ["getAllUsers"])
-  userByEmail(email: String!): User @hasPermission(permissions: ["initialAuth"])
+  invitations: [Invitation!]!
+  users: [User!]!
+  userByEmail(email: String!): User
 }
 
 extend type Mutation {
   activateUser(token: String!): ActivationResponse!
-  createInvitation(email: String!, sendEmail: Boolean): Invitation! @hasPermission(permissions: ["createInvitation"])
-  deleteInvitation(email: String!): ID! @hasPermission(permissions: ["deleteInvitation"])
-  register(input: RegistrationInput!): User! @hasPermission(permissions: ["registerUser"])
-  removeUser(id: ID!): ID! @hasPermission(permissions: ["removeUser"])
+  createInvitation(email: String!, sendEmail: Boolean): Invitation!
+  deleteInvitation(email: String!): ID!
+  register(input: RegistrationInput!): User!
+  removeUser(id: ID!): ID!
 }

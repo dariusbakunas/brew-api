@@ -38,10 +38,10 @@ extend type Query {
     limit: Int = 10,
     sortDirection: SortDirection = ASCENDING,
     sortBy: SortableHopField
-  ): HopsResponse! @hasPermission(permissions: ["getHops"])
+  ): HopsResponse!
 }
 extend type Mutation {
-  createHop(input: HopInput!) : Hop! @hasPermission(permissions: ["createHop"])
-  updateHop(id: ID!, input: HopInput!) : Hop! @hasPermission(permissions: ["updateHop"])
-  removeHop(id: ID!): ID! @hasPermission(permissions: ["removeHop"])
+  createHop(input: HopInput!) : Hop!
+  updateHop(id: ID!, input: HopInput!) : Hop!
+  removeHop(id: ID!): ID!
 }

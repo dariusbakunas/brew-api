@@ -5,5 +5,5 @@ type Country {
 }
 
 extend type Query {
-  countries: [Country!]! @hasPermission(permissions: ["getAllCountries"])
+  countries: [Country!]!
 }
