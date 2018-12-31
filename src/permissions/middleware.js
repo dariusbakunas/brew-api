@@ -9,16 +9,19 @@ const isOwner = rule()(async (parent, args, { user }, info) => {
   return true;
 });
 
-const isActiveUser = rule()(async (parent, args, { user }) => user.status === 'ACTIVE');
-const isAdmin = rule()(async (parent, args, { user }) => user.isAdmin);
-const isGuest = rule()(async (parent, args, { user }) => user.status === 'GUEST');
-const isInitialAuth = rule()(async (parent, args, { user }) => !!user.initialAuth);
+const isActiveUser = rule()((parent, args, { user }) => user.status === 'ACTIVE');
+const isAdmin = rule()((parent, args, { user }) => user.isAdmin);
+const isGuest = rule()((parent, args, { user }) => user.status === 'GUEST');
+const isInitialAuth = rule()((parent, args, { user }) => !!user.initialAuth);
 
-const isIngredientManager = rule()(async (parent, args, { user }) => user.roles
+const isIngredientManager = rule()((parent, args, { user }) => user.roles
   && user.roles.indexOf(ROLES.INGREDIENT_MANAGER) !== -1);
 
-const isUserManager = rule()(async (parent, args, { user }) => user.roles
+const isUserManager = rule()((parent, args, { user }) => user.roles
   && user.roles.indexOf(ROLES.INGREDIENT_MANAGER) !== -1);
+
+const allow = rule()(() => true);
+const deny = rule()(() => false);
 
 const middleware = shield({
   Query: {
@@ -36,11 +39,21 @@ const middleware = shield({
     updateHop: and(isActiveUser, or(isAdmin, isIngredientManager)),
 
     // users
+    activateUser: allow,
     createInvitation: and(isActiveUser, or(isAdmin, isUserManager)),
     deleteInvitation: and(isActiveUser, or(isAdmin, isUserManager)),
     removeUser: and(isActiveUser, or(isAdmin, isUserManager)),
     register: isGuest,
   },
-});
+  ActivationResponse: allow,
+  Country: allow,
+  Hop: allow,
+  HopsResponse: allow,
+  Invitation: allow,
+  PageInfo: allow,
+  Role: allow,
+  User: allow,
+  Quote: allow,
+}, { fallbackRule: deny });
 
 export default middleware;
