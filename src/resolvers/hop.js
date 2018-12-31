@@ -1,67 +1,26 @@
 import { UserInputError } from 'apollo-server-express';
 import Sequelize from 'sequelize';
-import btoa from 'btoa';
-import atob from 'atob';
 import handleError from './handleError';
+import { getPagedQuery, getNextCursor } from './paging';
 
 const resolvers = {
   Query: {
     pagedHops: async (_source, {
       cursor: encodedCursor, limit, sortBy, sortDirection,
     }, { dataSources }) => {
-      if (limit > 100) {
-        throw new UserInputError('Only 100 hops can be requested at a time');
-      }
-
-      const query = {
-        limit: limit + 1,
-      };
-
-      const direction = sortDirection === 'ASCENDING' ? 'ASC' : 'DESC';
-      const whereOp = sortDirection === 'ASCENDING' ? Sequelize.Op.gte : Sequelize.Op.lte;
-
-      query.order = [
-        ['id', direction],
-      ];
-
-      if (sortBy) {
-        query.order.unshift([sortBy, direction]);
-      }
-
-      if (encodedCursor) {
-        const cursor = JSON.parse(atob(encodedCursor));
-
-        query.where = cursor.reduce((acc, field) => {
-          acc[field.key] = {
-            [whereOp]: field.value,
-          };
-
-          return acc;
-        }, {});
-      }
-
+      const query = getPagedQuery(encodedCursor, limit + 1, sortBy, sortDirection);
       const hops = await dataSources.db.Hop.findAll(query);
       let nextCursor = null;
 
       // nextCursor is only available if there is another page
       if (hops.length > limit) {
-        const nextHop = hops[hops.length - 1];
-
-        nextCursor = [
-          { key: 'id', value: nextHop.id },
-        ];
-
-        if (sortBy) {
-          nextCursor.unshift({ key: sortBy, value: nextHop[sortBy] });
-        }
-
-        hops.splice(-1, 1);
+        nextCursor = getNextCursor(hops.pop(), sortBy);
       }
 
       return {
         hops,
         paging: {
-          nextCursor: nextCursor ? btoa(JSON.stringify(nextCursor)) : null,
+          nextCursor,
           currentCursor: encodedCursor,
         },
       };
