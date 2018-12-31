@@ -2,6 +2,7 @@ import Sequelize from 'sequelize';
 import country from './country';
 import hop from './hop';
 import user from './user';
+import role from './role';
 import quote from './quote';
 import invitation from './invitation';
 
@@ -16,6 +17,7 @@ const modules = [
   country,
   hop,
   user,
+  role,
   quote,
   invitation,
 ];

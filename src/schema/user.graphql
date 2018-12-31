@@ -4,6 +4,10 @@ enum UserStatus {
   INACTIVE
 }
 
+type Role {
+  name: String!
+}
+
 type User {
   id: ID!
   username: String!
@@ -13,6 +17,7 @@ type User {
   email: String!
   status: UserStatus!
   permissions: [String!]!
+  roles: [Role!]!
 }
 
 input RegistrationInput {

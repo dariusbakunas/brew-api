@@ -13,6 +13,10 @@ const resolvers = {
     invitations: (_source, _args, { dataSources }) => dataSources.db.Invitation.findAll(),
     users: (_source, _args, { dataSources }) => dataSources.db.User.findAll(),
     userByEmail: (_source, { email }, { dataSources }) => dataSources.db.User.find({
+      include: [{// Notice `include` takes an ARRAY
+        model: dataSources.db.Role,
+        as: 'roles',
+      }],
       where: {
         email: {
           [Op.eq]: email,
