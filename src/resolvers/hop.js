@@ -5,7 +5,7 @@ import { getPagedQuery, getNextCursor } from './paging';
 
 const resolvers = {
   Query: {
-    pagedHops: async (_source, {
+    hops: async (_source, {
       cursor: encodedCursor, limit, sortBy, sortDirection,
     }, { dataSources }) => {
       const query = getPagedQuery(encodedCursor, limit, sortBy, sortDirection);
@@ -18,8 +18,8 @@ const resolvers = {
       }
 
       return {
-        hops,
-        paging: {
+        data: hops,
+        pageInfo: {
           nextCursor,
           currentCursor: encodedCursor,
         },

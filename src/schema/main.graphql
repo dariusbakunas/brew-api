@@ -5,7 +5,7 @@ enum SortDirection {
   DESCENDING
 }
 
-type Paging {
+type PageInfo {
   currentCursor: String
   nextCursor: String
 }

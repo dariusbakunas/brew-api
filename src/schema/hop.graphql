@@ -28,12 +28,12 @@ enum SortableHopField {
 }
 
 type HopsResponse {
-  paging: Paging!
-  hops: [Hop!]!
+  pageInfo: PageInfo!
+  data: [Hop!]!
 }
 
 extend type Query {
-  pagedHops(
+  hops(
     cursor: String,
     limit: Int!,
     sortDirection: SortDirection = ASCENDING,
