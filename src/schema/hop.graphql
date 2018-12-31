@@ -35,10 +35,10 @@ type HopsResponse {
 extend type Query {
   hops(
     cursor: String,
-    limit: Int!,
+    limit: Int = 10,
     sortDirection: SortDirection = ASCENDING,
     sortBy: SortableHopField
-  ): HopsResponse! @hasScope(scope: ["activeUser"])
+  ): HopsResponse! @hasScope(scope: ["activeUser", "getHops"])
 }
 extend type Mutation {
   createHop(input: HopInput!) : Hop! @hasScope(scope: ["activeUser", "createHop"])
