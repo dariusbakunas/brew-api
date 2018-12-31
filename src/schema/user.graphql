@@ -41,9 +41,9 @@ type Invitation {
 }
 
 extend type Query {
-  invitations: [Invitation!]! @hasPermission(permissions: ["listAllInvitations"])
-  users: [User!]! @hasPermission(permissions: ["listAllUsers"])
-  userByEmail(email: String!): User @hasPermission(permissions: ["activeUser", "initialAuth"])
+  invitations: [Invitation!]! @hasPermission(permissions: ["getAllInvitations"])
+  users: [User!]! @hasPermission(permissions: ["getAllUsers"])
+  userByEmail(email: String!): User @hasPermission(permissions: ["initialAuth"])
 }
 
 extend type Mutation {
