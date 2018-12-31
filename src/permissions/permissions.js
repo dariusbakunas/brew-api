@@ -1,4 +1,4 @@
-const SCOPES = {
+const PERMISSIONS = {
   ACTIVE_USER: 'activeUser',
   CREATE_HOP: 'createHop',
   CREATE_INVITATION: 'createInvitation',
@@ -13,4 +13,4 @@ const SCOPES = {
   UPDATE_HOP: 'updateHop',
 };
 
-module.exports = SCOPES;
+module.exports = PERMISSIONS;

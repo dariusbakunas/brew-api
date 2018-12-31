@@ -1,4 +1,4 @@
-directive @hasScope(scope: [String]) on FIELD_DEFINITION
+directive @hasPermission(permissions: [String]) on FIELD_DEFINITION
 
 enum SortDirection {
   ASCENDING

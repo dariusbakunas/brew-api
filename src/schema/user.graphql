@@ -12,7 +12,7 @@ type User {
   lastName: String
   email: String!
   status: UserStatus!
-  scopes: [String!]!
+  permissions: [String!]!
 }
 
 input RegistrationInput {
@@ -41,15 +41,15 @@ type Invitation {
 }
 
 extend type Query {
-  invitations: [Invitation!]! @hasScope(scope: ["listAllInvitations"])
-  users: [User!]! @hasScope(scope: ["listAllUsers"])
-  userByEmail(email: String!): User @hasScope(scope: ["activeUser", "initialAuth"])
+  invitations: [Invitation!]! @hasPermission(permissions: ["listAllInvitations"])
+  users: [User!]! @hasPermission(permissions: ["listAllUsers"])
+  userByEmail(email: String!): User @hasPermission(permissions: ["activeUser", "initialAuth"])
 }
 
 extend type Mutation {
   activateUser(token: String!): ActivationResponse!
-  createInvitation(email: String!, sendEmail: Boolean): Invitation! @hasScope(scope: ["createInvitation"])
-  deleteInvitation(email: String!): ID! @hasScope(scope: ["deleteInvitation"])
-  register(input: RegistrationInput!): User! @hasScope(scope: ["registerUser"])
-  removeUser(id: ID!): ID! @hasScope(scope: ["removeUser"])
+  createInvitation(email: String!, sendEmail: Boolean): Invitation! @hasPermission(permissions: ["createInvitation"])
+  deleteInvitation(email: String!): ID! @hasPermission(permissions: ["deleteInvitation"])
+  register(input: RegistrationInput!): User! @hasPermission(permissions: ["registerUser"])
+  removeUser(id: ID!): ID! @hasPermission(permissions: ["removeUser"])
 }

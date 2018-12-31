@@ -1,19 +1,19 @@
 import { AuthenticationError, SchemaDirectiveVisitor, ForbiddenError } from 'apollo-server-express';
 
-class HasScopeDirective extends SchemaDirectiveVisitor {
+class HasPermissionDirective extends SchemaDirectiveVisitor {
   visitFieldDefinition(field) {
     const { resolve } = field;
-    const { scope: expectedScopes } = this.args;
+    const { permissions: expectedPermissions } = this.args;
     field.resolve = async (...args) => {
       const [, , context] = args;
       if (context.user) {
-        const { user: { scopes = [] } } = context;
+        const { user: { permissions = [] } } = context;
 
-        if (expectedScopes.some(scope => scopes.indexOf(scope) !== -1)) {
+        if (expectedPermissions.some(permission => permissions.indexOf(permission) !== -1)) {
           return resolve.apply(this, args);
         }
 
-        throw new ForbiddenError(`You are not authorized. Expected scopes: ${expectedScopes.join(', ')}`);
+        throw new ForbiddenError(`You are not authorized. Expected permissions: ${expectedPermissions.join(', ')}`);
       } else {
         throw new AuthenticationError(
           'You must be signed in to view this resource.',
@@ -23,4 +23,4 @@ class HasScopeDirective extends SchemaDirectiveVisitor {
   }
 }
 
-export default HasScopeDirective;
+export default HasPermissionDirective;

@@ -5,5 +5,5 @@ type Country {
 }
 
 extend type Query {
-  countries: [Country!]! @hasScope(scope: ["activeUser"])
+  countries: [Country!]! @hasPermission(permissions: ["activeUser"])
 }

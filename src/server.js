@@ -7,7 +7,7 @@ import logger from './logger';
 import loadSchemas from './schema/loadSchemas';
 import db from './db/models/index';
 import resolvers from './resolvers/index';
-import hasScopeDirective from './directives/hasScopeDirective';
+import hasPermissionDirective from './directives/hasPermissionDirective';
 import EmailSender from './email/emailSender';
 
 const typeDefs = loadSchemas();
@@ -22,7 +22,7 @@ const server = new ApolloServer({
     emailSender,
   }),
   schemaDirectives: {
-    hasScope: hasScopeDirective,
+    hasPermission: hasPermissionDirective,
   },
   context: async ({ req }) => {
     return { user: req.user };
