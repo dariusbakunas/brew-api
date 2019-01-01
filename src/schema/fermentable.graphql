@@ -18,15 +18,6 @@ enum FermentableType {
   GLUTEN_FREE,
 }
 
-type FermentablesResponse {
-  pageInfo: PageInfo!
-  data: [Fermentable!]!
-}
-
-enum SortableFermentableField {
-  NAME
-}
-
 type Fermentable {
   id: ID!
   name: String!
@@ -36,6 +27,16 @@ type Fermentable {
   origin: Country!
   type: FermentableType
   potential: Float
+}
+
+
+type FermentablesResponse {
+  pageInfo: PageInfo!
+  data: [Fermentable!]!
+}
+
+enum SortableFermentableField {
+  NAME
 }
 
 input FermentableInput {

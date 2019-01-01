@@ -28,6 +28,7 @@ const middleware = shield({
     countries: isActiveUser,
     hops: isActiveUser,
     fermentables: isActiveUser,
+    yeast: isActiveUser,
     invitations: and(isActiveUser, or(isAdmin, isUserManager)),
     randomQuote: or(isGuest, isInitialAuth, isActiveUser),
     users: and(isActiveUser, or(isAdmin, isUserManager)),
@@ -38,6 +39,11 @@ const middleware = shield({
     createFermentable: and(isActiveUser, or(isAdmin, isIngredientManager)),
     updateFermentable: and(isActiveUser, or(isAdmin, isIngredientManager)),
     removeFermentable: and(isActiveUser, or(isAdmin, isIngredientManager)),
+
+    // yeast
+    createYeast: and(isActiveUser, or(isAdmin, isIngredientManager)),
+    updateYeast: and(isActiveUser, or(isAdmin, isIngredientManager)),
+    removeYeast: and(isActiveUser, or(isAdmin, isIngredientManager)),
 
     // hops
     createHop: and(isActiveUser, or(isAdmin, isIngredientManager)),
@@ -60,8 +66,11 @@ const middleware = shield({
   Invitation: allow,
   PageInfo: allow,
   Role: allow,
+  Yeast: allow,
+  YeastLab: allow,
+  YeastResponse: allow,
   User: allow,
   Quote: allow,
-}, { fallbackRule: deny });
+}, { fallbackRule: deny, debug: true });
 
 export default middleware;
