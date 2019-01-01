@@ -27,12 +27,18 @@ const middleware = shield({
   Query: {
     countries: isActiveUser,
     hops: isActiveUser,
+    fermentables: isActiveUser,
     invitations: and(isActiveUser, or(isAdmin, isUserManager)),
     randomQuote: or(isGuest, isInitialAuth, isActiveUser),
     users: and(isActiveUser, or(isAdmin, isUserManager)),
     userByEmail: isInitialAuth,
   },
   Mutation: {
+    // fermentables
+    createFermentable: and(isActiveUser, or(isAdmin, isIngredientManager)),
+    updateFermentable: and(isActiveUser, or(isAdmin, isIngredientManager)),
+    removeFermentable: and(isActiveUser, or(isAdmin, isIngredientManager)),
+
     // hops
     createHop: and(isActiveUser, or(isAdmin, isIngredientManager)),
     removeHop: and(isActiveUser, or(isAdmin, isIngredientManager)),
@@ -47,6 +53,8 @@ const middleware = shield({
   },
   ActivationResponse: allow,
   Country: allow,
+  Fermentable: allow,
+  FermentablesResponse: allow,
   Hop: allow,
   HopsResponse: allow,
   Invitation: allow,
