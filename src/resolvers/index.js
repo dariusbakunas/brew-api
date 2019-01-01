@@ -4,6 +4,7 @@ import hop from './hop';
 import user from './user';
 import quote from './quote';
 import fermentable from './fermentable';
+import yeast from './yeast';
 
 export default merge(
   country,
@@ -11,4 +12,5 @@ export default merge(
   user,
   quote,
   fermentable,
+  yeast,
 );

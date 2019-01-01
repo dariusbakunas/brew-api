@@ -1,0 +1,58 @@
+enum YeastForm {
+  LIQUID,
+  DRY
+}
+
+enum YeastType {
+  ALE
+  CHAMPAGNE
+  LAGER
+  WHEAT
+  WINE
+}
+
+type YeastLab {
+  id: ID!
+  name: String!
+}
+
+type Yeast {
+  id: ID!
+  name: String!
+  form: YeastForm!
+  type: YeastType!
+  lab: YeastLab!
+  description: String
+}
+
+input YeastInput {
+  name: String!
+  form: YeastForm!
+  type: YeastType!
+  labId: ID!
+  description: String
+}
+
+type YeastResponse {
+  pageInfo: PageInfo!
+  data: [Yeast!]!
+}
+
+enum SortableYeastField {
+  NAME
+}
+
+extend type Query {
+  yeast(
+    cursor: String
+    limit: Int = 10
+    sortDirection: SortDirection = ASCENDING
+    sortBy: SortableYeastField
+  ) : YeastResponse!
+}
+
+extend type Mutation {
+  createYeast(input: YeastInput!): Yeast!
+  updateYeast(id: ID!, input: YeastInput!): Yeast!
+  removeYeast(id: ID!): ID!
+}
