@@ -29,6 +29,7 @@ const middleware = shield({
     hops: isActiveUser,
     fermentables: isActiveUser,
     yeast: isActiveUser,
+    yeastLabs: isActiveUser,
     invitations: and(isActiveUser, or(isAdmin, isUserManager)),
     randomQuote: or(isGuest, isInitialAuth, isActiveUser),
     users: and(isActiveUser, or(isAdmin, isUserManager)),

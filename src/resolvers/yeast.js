@@ -32,6 +32,11 @@ const resolvers = {
         },
       };
     },
+    yeastLabs: async (_source, _args, { dataSources }) => dataSources.db.YeastLab.findAll({
+      order: [
+        ['name', 'ASC'],
+      ],
+    }),
   },
   Mutation: {
     createYeast: (_source, { input }, { dataSources }) => dataSources.db.Yeast.create(input)

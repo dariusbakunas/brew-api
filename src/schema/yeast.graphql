@@ -49,6 +49,7 @@ extend type Query {
     sortDirection: SortDirection = ASCENDING
     sortBy: SortableYeastField
   ) : YeastResponse!
+  yeastLabs: [YeastLab!]!
 }
 
 extend type Mutation {
