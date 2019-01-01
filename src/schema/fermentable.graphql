@@ -1,0 +1,64 @@
+enum FermentableCategory {
+  ADJUNCT
+  DRY_EXTRACT
+  FRUIT
+  GRAIN
+  JUICE
+  LIQUID_EXTRACT
+  SUGAR
+}
+
+enum FermentableType {
+  BASE
+  CARAMEL_CRYSTAL,
+  ADJUNCT,
+  KILNED_TOASTED,
+  ROASTED,
+  RAW,
+  GLUTEN_FREE,
+}
+
+type FermentablesResponse {
+  pageInfo: PageInfo!
+  data: [Fermentable!]!
+}
+
+enum SortableFermentableField {
+  NAME
+}
+
+type Fermentable {
+  id: ID!
+  name: String!
+  category: FermentableCategory!
+  color: Float
+  description: String
+  origin: Country!
+  type: FermentableType
+  potential: Float
+}
+
+input FermentableInput {
+  name: String!
+  category: FermentableCategory!
+  color: Float
+  description: String
+  originId: ID!
+  type: FermentableType
+  potential: Float
+}
+
+extend type Query {
+  fermentables(
+    cursor: String
+    limit: Int = 10
+    sortDirection: SortDirection = ASCENDING
+    sortBy: SortableFermentableField
+  ) : FermentablesResponse!
+}
+
+extend type Mutation {
+  createFermentable(input: FermentableInput!): Fermentable!
+  updateFermentable(id: ID!, input: FermentableInput!) : Fermentable!
+  removeFermentable(id: ID!): ID!
+}
