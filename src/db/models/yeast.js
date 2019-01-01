@@ -7,14 +7,16 @@ module.exports = (sequelize, DataTypes) => {
     form: {
       allowNull: false,
       type: DataTypes.ENUM,
-      values: ['Liquid', 'Dry'],
+      values: ['LIQUID', 'DRY'],
     },
     type: {
       allowNull: false,
       type: DataTypes.ENUM,
-      values: ['Ale', 'Champagne', 'Lager', 'Wheat', 'Wine'],
+      values: ['ALE', 'CHAMPAGNE', 'LAGER', 'WHEAT', 'WINE'],
     },
     description: DataTypes.TEXT,
+  }, {
+    tableName: 'yeast',
   });
 
   Yeast.associate = (models) => {
@@ -26,4 +28,6 @@ module.exports = (sequelize, DataTypes) => {
       },
     );
   };
+
+  return Yeast;
 };

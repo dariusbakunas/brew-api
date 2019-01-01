@@ -21,12 +21,12 @@ module.exports = {
     form: {
       allowNull: false,
       type: Sequelize.ENUM,
-      values: ['Liquid', 'Dry'],
+      values: ['LIQUID', 'DRY'],
     },
     type: {
       allowNull: false,
       type: Sequelize.ENUM,
-      values: ['Ale', 'Champagne', 'Lager', 'Wheat', 'Wine'],
+      values: ['ALE', 'CHAMPAGNE', 'LAGER', 'WHEAT', 'WINE'],
     },
     description: Sequelize.TEXT,
     createdAt: {
