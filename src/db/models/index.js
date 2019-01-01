@@ -6,6 +6,8 @@ import role from './role';
 import quote from './quote';
 import invitation from './invitation';
 import fermentable from './fermentable';
+import yeastLab from './yeastLab';
+import yeast from './yeast';
 
 const env = process.env.NODE_ENV || 'development';
 const config = require('../../config/database.js')[env];
@@ -22,6 +24,8 @@ const modules = [
   quote,
   invitation,
   fermentable,
+  yeastLab,
+  yeast,
 ];
 
 // Initialize models
