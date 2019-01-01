@@ -12,5 +12,5 @@ if (!username) {
   process.exit(1);
 }
 
-const token = jwt.sign({ user: { username, isAdmin: true } }, process.env.JWT_SECRET);
+const token = jwt.sign({ user: { username, isAdmin: true, status: 'ACTIVE' } }, process.env.JWT_SECRET);
 logger.info(`YOUR TOKEN: ${token}`);
