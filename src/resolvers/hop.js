@@ -21,7 +21,6 @@ const resolvers = {
         data: hops,
         pageInfo: {
           nextCursor,
-          currentCursor: encodedCursor,
         },
       };
     },

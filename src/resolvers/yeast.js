@@ -28,7 +28,6 @@ const resolvers = {
         data: yeast,
         pageInfo: {
           nextCursor,
-          currentCursor: encodedCursor,
         },
       };
     },

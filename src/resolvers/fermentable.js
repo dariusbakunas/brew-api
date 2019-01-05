@@ -11,7 +11,7 @@ const convertSortableColumn = (column) => {
 
 const resolvers = {
   Query: {
-    fermentables: async(_source, {
+    fermentables: async (_source, {
       cursor: encodedCursor, limit, sortBy, sortDirection,
     }, { dataSources }) => {
       const sortByColumn = convertSortableColumn(sortBy);
@@ -28,7 +28,6 @@ const resolvers = {
         data: fermentables,
         pageInfo: {
           nextCursor,
-          currentCursor: encodedCursor,
         },
       };
     },

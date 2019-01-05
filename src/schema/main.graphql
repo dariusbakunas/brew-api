@@ -4,7 +4,6 @@ enum SortDirection {
 }
 
 type PageInfo {
-  currentCursor: String
   nextCursor: String
 }
 
