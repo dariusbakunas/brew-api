@@ -1,4 +1,7 @@
-module.exports = {
+const fs = require('fs');
+const path = require('path');
+
+const config = {
   development: {
     username: 'database_dev',
     password: 'database_dev',
@@ -21,3 +24,19 @@ module.exports = {
     dialect: 'postgres',
   },
 };
+
+if (process.env.PROD_DB_SSL_KEY) {
+  const key = fs.readFileSync(process.env.PROD_DB_SSL_KEY);
+  const cert = fs.readFileSync(process.env.PROD_DB_SSL_CERT);
+  const ca = fs.readFileSync(process.env.PROD_DB_SSL_CA);
+
+  config.production.dialectOptions = {
+    ssl: {
+      key,
+      cert,
+      ca,
+    },
+  };
+}
+
+module.exports = config;

@@ -1,6 +1,6 @@
 {
   "name": "brew-api",
-  "version": "0.0.22",
+  "version": "0.0.26",
   "description": "",
   "main": "index.js",
   "engines": {
@@ -10,14 +10,12 @@
     "lint": "eslint --ignore-path .gitignore .",
     "server:dev": "nodemon -r dotenv/config dist/server.bundle.js",
     "server:prod": "node dist/server.bundle.js",
-    "build:dev": "./node_modules/.bin/webpack --watch --progress",
-    "build:prod": "./node_modules/.bin/webpack --mode=production --progress",
+    "build:dev": "webpack --watch --progress",
+    "build:prod": "webpack --mode=production --progress",
     "db:dev": "cross-env NODE_ENV=development sequelize",
     "db:prod": "cross-env NODE_ENV=production sequelize",
     "token:gen": "node -r dotenv/config scripts/token.js",
     "test": "jest",
-    "prestart": "npm run build:prod",
-    "start": "npm run server:prod",
     "coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls"
   },
   "repository": {
@@ -54,7 +52,6 @@
     "winston": "^3.1.0"
   },
   "devDependencies": {
-    "@google-cloud/nodejs-repo-tools": "^3.0.0",
     "@babel/core": "^7.1.6",
     "@babel/plugin-transform-runtime": "^7.1.0",
     "@babel/preset-env": "^7.1.6",

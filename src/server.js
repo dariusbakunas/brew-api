@@ -66,6 +66,6 @@ app.use(morgan('combined', {
 
 server.applyMiddleware({ app });
 
-const port = 4000;
+const port = 8080;
 
 app.listen({ port }, () => logger.info(`🚀 Server ready at http://localhost:${port}${server.graphqlPath}`));
