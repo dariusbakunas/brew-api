@@ -1,0 +1,50 @@
+type Water {
+  id: ID!
+  name: String!
+  pH: Float!
+  alkalinity: Int!
+  calcium: Float!
+  magnesium: Float!
+  sodium: Float!
+  sulfate: Float!
+  chloride: Float!
+  bicarbonate: Float!
+  description: String
+}
+
+type WaterResponse {
+  pageInfo: PageInfo!
+  data: [Water!]!
+}
+
+enum SortableWaterField {
+  NAME
+}
+
+input WaterInput {
+  name: String!
+  pH: Float!
+  alkalinity: Int!
+  calcium: Float!
+  magnesium: Float!
+  sodium: Float!
+  sulfate: Float!
+  chloride: Float!
+  bicarbonate: Float!
+  description: String
+}
+
+extend type Query {
+  water(
+    cursor: String
+    limit: Int = 10
+    sortDirection: SortDirection = ASCENDING
+    sortBy: SortableWaterField
+  ) : WaterResponse!
+}
+
+extend type Mutation {
+  createWater(input: WaterInput!): Water!
+  updateWater(id: ID!, input: WaterInput!) : Water!
+  removeWater(id: ID!): ID!
+}

@@ -29,6 +29,7 @@ const middleware = shield({
     hops: isActiveUser,
     fermentables: isActiveUser,
     yeast: isActiveUser,
+    water: isActiveUser,
     yeastLabs: isActiveUser,
     invitations: and(isActiveUser, or(isAdmin, isUserManager)),
     randomQuote: or(isGuest, isInitialAuth, isActiveUser),
@@ -45,6 +46,11 @@ const middleware = shield({
     createYeast: and(isActiveUser, or(isAdmin, isIngredientManager)),
     updateYeast: and(isActiveUser, or(isAdmin, isIngredientManager)),
     removeYeast: and(isActiveUser, or(isAdmin, isIngredientManager)),
+
+    // water
+    createWater: and(isActiveUser, or(isAdmin, isIngredientManager)),
+    updateWater: and(isActiveUser, or(isAdmin, isIngredientManager)),
+    removeWater: and(isActiveUser, or(isAdmin, isIngredientManager)),
 
     // hops
     createHop: and(isActiveUser, or(isAdmin, isIngredientManager)),
@@ -70,6 +76,8 @@ const middleware = shield({
   Yeast: allow,
   YeastLab: allow,
   YeastResponse: allow,
+  Water: allow,
+  WaterResponse: allow,
   User: allow,
   Quote: allow,
 }, { fallbackRule: deny, debug: true });

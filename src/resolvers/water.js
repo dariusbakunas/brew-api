@@ -1,0 +1,68 @@
+import Sequelize from 'sequelize';
+import { UserInputError } from 'apollo-server-express';
+import { getPagedQuery, getNextCursor } from './paging';
+import handleError from './handleError';
+
+const convertSortableColumn = column => ({
+  NAME: 'name',
+}[column]);
+
+const resolvers = {
+  Query: {
+    water: async (_source, {
+      cursor: encodedCursor, limit, sortBy, sortDirection,
+    }, { dataSources }) => {
+      const sortByColumn = convertSortableColumn(sortBy);
+
+      const query = getPagedQuery(encodedCursor, limit, sortByColumn, sortDirection);
+      const water = await dataSources.db.Water.findAll(query);
+      let nextCursor = null;
+
+      if (water.length > limit) {
+        nextCursor = getNextCursor(water.pop(), sortByColumn);
+      }
+
+      return {
+        data: water,
+        pageInfo: {
+          nextCursor,
+        },
+      };
+    },
+  },
+  Mutation: {
+    createWater: (_source, { input }, { dataSources }) => dataSources.db.Water.create(input)
+      .then(water => dataSources.db.Water.findById(water.id))
+      .catch((err) => {
+        handleError(err);
+      }),
+    updateWater: async (_source, { id, input }, { dataSources }) => {
+      const result = await dataSources.db.Water.update(
+        input,
+        {
+          where: {
+            id: {
+              [Sequelize.Op.eq]: id,
+            },
+          },
+          returning: true,
+          plain: true,
+        },
+      );
+
+      return result[1].dataValues;
+    },
+    removeWater: async (_source, { id }, { dataSources }) => {
+      const water = await dataSources.db.Water.findById(id);
+
+      if (!water) {
+        throw new UserInputError('Water does not exist');
+      }
+
+      await water.destroy();
+      return id;
+    },
+  },
+};
+
+export default resolvers;

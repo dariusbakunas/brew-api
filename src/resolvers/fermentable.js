@@ -63,7 +63,7 @@ const resolvers = {
       const fermentable = await dataSources.db.Fermentable.findById(id);
 
       if (!fermentable) {
-        throw new UserInputError('Hop does not exist');
+        throw new UserInputError('Fermentable does not exist');
       }
 
       await fermentable.destroy();

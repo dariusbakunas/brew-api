@@ -9,8 +9,9 @@ function loadSchemas(basePath = path.join(__dirname, './schema')) {
   const quoteSchema = fs.readFileSync(path.join(basePath, './quote.graphql'), 'utf8');
   const fermentableSchema = fs.readFileSync(path.join(basePath, './fermentable.graphql'), 'utf8');
   const yeastSchema = fs.readFileSync(path.join(basePath, './yeast.graphql'), 'utf8');
+  const waterSchema = fs.readFileSync(path.join(basePath, './water.graphql'), 'utf8');
   return [hopSchema, userSchema, mainSchema, countrySchema,
-    quoteSchema, fermentableSchema, yeastSchema].join('');
+    quoteSchema, fermentableSchema, yeastSchema, waterSchema].join('');
 }
 
 export default loadSchemas;

@@ -4,6 +4,7 @@ import hop from './hop';
 import user from './user';
 import quote from './quote';
 import fermentable from './fermentable';
+import water from './water';
 import yeast from './yeast';
 
 export default merge(
@@ -13,4 +14,5 @@ export default merge(
   quote,
   fermentable,
   yeast,
+  water,
 );
