@@ -13,6 +13,8 @@
     "db:prod": "cross-env NODE_ENV=production sequelize",
     "token:gen": "node -r dotenv/config scripts/token.js",
     "test": "jest",
+    "prestart": "npm run build:prod",
+    "start": "npm run server:prod",
     "coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls"
   },
   "repository": {
