@@ -10,6 +10,7 @@ const { Op } = Sequelize;
 const resolvers = {
   Query: {
     invitations: (_source, _args, { dataSources }) => dataSources.db.Invitation.findAll(),
+    roles: (_source, _args, { dataSources }) => dataSources.db.Role.findAll(),
     users: (_source, _args, { dataSources }) => dataSources.db.User.findAll(),
     userByEmail: (_source, { email }, { dataSources }) => dataSources.db.User.find({
       include: [{// Notice `include` takes an ARRAY

@@ -34,6 +34,7 @@ const middleware = shield({
     invitations: and(isActiveUser, or(isAdmin, isUserManager)),
     randomQuote: or(isGuest, isInitialAuth, isActiveUser),
     users: and(isActiveUser, or(isAdmin, isUserManager)),
+    roles: and(isActiveUser, or(isAdmin, isUserManager)),
     userByEmail: isInitialAuth,
   },
   Mutation: {

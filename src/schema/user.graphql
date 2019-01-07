@@ -5,7 +5,9 @@ enum UserStatus {
 }
 
 type Role {
+  id: ID!
   name: String!
+  code: String!
 }
 
 type User {
@@ -46,6 +48,7 @@ type Invitation {
 
 extend type Query {
   invitations: [Invitation!]!
+  roles: [Role!]!
   users: [User!]!
   userByEmail(email: String!): User
 }
