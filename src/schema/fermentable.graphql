@@ -27,6 +27,7 @@ type Fermentable {
   origin: Country!
   type: FermentableType
   potential: Float
+  yield: Float!
 }
 
 
@@ -47,6 +48,7 @@ input FermentableInput {
   originId: ID!
   type: FermentableType
   potential: Float
+  yield: Float!
 }
 
 extend type Query {

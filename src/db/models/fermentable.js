@@ -19,6 +19,14 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.FLOAT,
     },
+    yield: {
+      allowNull: false,
+      type: DataTypes.FLOAT,
+      validate: {
+        min: 0,
+        max: 100,
+      },
+    },
     description: DataTypes.TEXT,
   }, {
     tableName: 'fermentables',
