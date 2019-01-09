@@ -36,6 +36,7 @@
     "btoa": "^1.2.1",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
+    "express-rate-limit": "^3.3.2",
     "graphql": "^14.0.2",
     "graphql-middleware": "^3.0.0",
     "graphql-shield": "^5.1.0",

@@ -5,6 +5,7 @@ import passport from 'passport';
 import { Strategy, ExtractJwt } from 'passport-jwt';
 import { applyMiddleware } from 'graphql-middleware';
 import { makeExecutableSchema } from 'graphql-tools';
+import rateLimit from 'express-rate-limit';
 import logger from './logger';
 import loadSchemas from './schema/loadSchemas';
 import db from './db/models/index';
@@ -14,6 +15,11 @@ import permissionMiddleware from './permissions/middleware';
 
 const typeDefs = loadSchemas();
 const emailSender = new EmailSender();
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+});
 
 const schema = applyMiddleware(
   makeExecutableSchema({
@@ -63,6 +69,8 @@ app.use('*', passport.authenticate('jwt', { session: false }));
 app.use(morgan('combined', {
   skip: req => req.url === '/health-check',
 }));
+
+app.use('/graphql/', limiter);
 
 server.applyMiddleware({ app });
 
