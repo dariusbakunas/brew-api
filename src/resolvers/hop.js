@@ -3,12 +3,17 @@ import Sequelize from 'sequelize';
 import handleError from './handleError';
 import { getPagedQuery, getNextCursor } from './paging';
 
+const convertSortableColumn = column => ({
+  NAME: 'name',
+}[column]);
+
 const resolvers = {
   Query: {
     hops: async (_source, {
       cursor: encodedCursor, limit, sortBy, sortDirection,
     }, { dataSources }) => {
-      const query = getPagedQuery(encodedCursor, limit, sortBy, sortDirection);
+      const sortByColumn = convertSortableColumn(sortBy);
+      const query = getPagedQuery(encodedCursor, limit, sortByColumn, sortDirection);
       const hops = await dataSources.db.Hop.findAll(query);
       let nextCursor = null;
 
@@ -65,9 +70,7 @@ const resolvers = {
   },
   Hop: {
     // TODO: use data loaders to optimize
-    origin: (parent, _args, { dataSources }) => {
-      return dataSources.db.Country.findById(parent.originId);
-    },
+    origin: (parent, _args, { dataSources }) => dataSources.db.Country.findById(parent.originId),
   },
 };
 
