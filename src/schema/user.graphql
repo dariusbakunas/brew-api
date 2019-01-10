@@ -10,6 +10,11 @@ type Role {
   code: String!
 }
 
+input RoleInput {
+  name: String!
+  code: String!
+}
+
 type User {
   id: ID!
   username: String!
@@ -56,6 +61,7 @@ extend type Query {
 extend type Mutation {
   activateUser(token: String!): ActivationResponse!
   createInvitation(email: String!, sendEmail: Boolean): Invitation!
+  createRole(input: RoleInput!): Role!
   deleteInvitation(email: String!): ID!
   register(input: RegistrationInput!): User!
   removeUser(id: ID!): ID!

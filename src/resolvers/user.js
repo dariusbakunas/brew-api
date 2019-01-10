@@ -42,6 +42,11 @@ const resolvers = {
 
       return { success: false };
     },
+    createRole: async (_source, { input }, { dataSources }) => dataSources.db.Role.create(input)
+      .then(role => dataSources.db.Role.findById(role.id))
+      .catch((err) => {
+        handleError(err);
+      }),
     createInvitation: async (_source, { email, sendEmail }, { dataSources }) => {
       const { db, emailSender } = dataSources;
 
