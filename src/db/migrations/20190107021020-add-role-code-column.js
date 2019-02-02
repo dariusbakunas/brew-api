@@ -1,4 +1,4 @@
-const updateQuery = 'UPDATE roles SET code = md5(random()::text || clock_timestamp()::text)::uuid WHERE code is NULL';
+const updateQuery = 'UPDATE roles SET code = SUBSTRING(MD5(RAND()) FROM 1 FOR 10) WHERE code is NULL';
 
 module.exports = {
   up: (queryInterface, Sequelize) => queryInterface.addColumn(

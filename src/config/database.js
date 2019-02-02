@@ -21,7 +21,7 @@ const config = {
     password: process.env.PROD_DB_PASSWORD,
     database: process.env.PROD_DB_NAME,
     host: process.env.PROD_DB_HOSTNAME,
-    dialect: 'postgres',
+    dialect: 'mysql',
   },
 };
 

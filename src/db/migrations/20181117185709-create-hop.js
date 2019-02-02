@@ -23,10 +23,6 @@ module.exports = {
       allowNull: false,
       type: Sequelize.STRING,
     },
-    flavorProfile: {
-      type: Sequelize.ARRAY(Sequelize.STRING),
-      allowNull: false,
-    },
     originId: {
       allowNull: false,
       type: Sequelize.INTEGER,
