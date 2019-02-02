@@ -19,7 +19,7 @@ const resolvers = {
 
       // nextCursor is only available if there is another page
       if (hops.length > limit) {
-        nextCursor = getNextCursor(hops.pop(), sortBy);
+        nextCursor = getNextCursor(hops.pop(), sortByColumn);
       }
 
       return {
