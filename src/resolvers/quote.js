@@ -7,7 +7,7 @@ const resolvers = {
     randomQuote: async (_source, _args, { dataSources }) => {
       return dataSources.db.Quote.find({
         order: [
-          fn('RANDOM'),
+          fn('rand'),
         ],
       });
     },
