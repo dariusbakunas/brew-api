@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.ENUM('ADJUNCT', 'DRY_EXTRACT', 'FRUIT', 'JUICE', 'GRAIN', 'LIQUID_EXTRACT', 'SUGAR'),
     },
     type: {
-      type: DataTypes.ENUM('BASE', 'CARAMEL_CRYSTAL', 'ADJUNCT', 'KILNED_TOASTED', 'ROASTED', 'RAW', 'GLUTEN_FREE'),
+      type: DataTypes.ENUM('BASE', 'COLOR', 'CARAMEL_CRYSTAL', 'ROASTED', 'ADJUNCT', 'SPECIALTY'),
     },
     color: {
       allowNull: false,

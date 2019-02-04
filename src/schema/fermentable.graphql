@@ -10,12 +10,11 @@ enum FermentableCategory {
 
 enum FermentableType {
   BASE
+  COLOR,
   CARAMEL_CRYSTAL,
-  ADJUNCT,
-  KILNED_TOASTED,
   ROASTED,
-  RAW,
-  GLUTEN_FREE,
+  ADJUNCT,
+  SPECIALTY,
 }
 
 type Fermentable {
