@@ -3,11 +3,12 @@ import { UserInputError } from 'apollo-server-express';
 import { getPagedQuery, getNextCursor } from './paging';
 import handleError from './handleError';
 
-const convertSortableColumn = (column) => {
-  return {
-    NAME: 'name',
-  }[column];
-};
+const env = process.env.NODE_ENV || 'development';
+const config = require('../config/database.js')[env];
+
+const convertSortableColumn = column => ({
+  NAME: 'name',
+}[column]);
 
 const resolvers = {
   Query: {
@@ -57,7 +58,7 @@ const resolvers = {
         },
       );
 
-      return result[1].dataValues;
+      return config.dialect === 'mysql' ? dataSources.db.Fermentable.findById(id) : result[1].dataValues;
     },
     removeFermentable: async (_source, { id }, { dataSources }) => {
       const fermentable = await dataSources.db.Fermentable.findById(id);
