@@ -3,6 +3,9 @@ import Sequelize from 'sequelize';
 import handleError from './handleError';
 import { getPagedQuery, getNextCursor } from './paging';
 
+const env = process.env.NODE_ENV || 'development';
+const config = require('../config/database.js')[env];
+
 const convertSortableColumn = column => ({
   NAME: 'name',
 }[column]);
@@ -55,7 +58,7 @@ const resolvers = {
         },
       );
 
-      return result[1].dataValues;
+      return config.dialect === 'postgresql' ? result[1].dataValues : dataSources.db.Fermentable.findById(id);
     },
     removeHop: async (_source, { id }, { dataSources }) => {
       const hop = await dataSources.db.Hop.findById(id);

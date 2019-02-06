@@ -3,6 +3,9 @@ import { UserInputError } from 'apollo-server-express';
 import { getPagedQuery, getNextCursor } from './paging';
 import handleError from './handleError';
 
+const env = process.env.NODE_ENV || 'development';
+const config = require('../config/database.js')[env];
+
 const convertSortableColumn = (column) => {
   return {
     NAME: 'name',
@@ -62,7 +65,7 @@ const resolvers = {
         },
       );
 
-      return result[1].dataValues;
+      return config.dialect === 'postgresql' ? result[1].dataValues : dataSources.db.Fermentable.findById(id);
     },
     removeYeast: async (_source, { id }, { dataSources }) => {
       const yeast = await dataSources.db.Yeast.findById(id);
