@@ -11,6 +11,12 @@ enum YeastType {
   WINE
 }
 
+enum YeastFlocculation {
+  LOW
+  MEDIUM
+  HIGH
+}
+
 type YeastLab {
   id: ID!
   name: String!
@@ -18,19 +24,29 @@ type YeastLab {
 
 type Yeast {
   id: ID!
-  name: String!
-  form: YeastForm!
-  type: YeastType!
-  lab: YeastLab!
   description: String
+  flocculation: YeastFlocculation
+  form: YeastForm!
+  lab: YeastLab!
+  minTemp: Float
+  maxTemp: Float
+  minAttenuation: Float
+  maxAttenuation: Float
+  name: String!
+  type: YeastType!
 }
 
 input YeastInput {
-  name: String!
-  form: YeastForm!
-  type: YeastType!
-  labId: ID!
   description: String
+  flocculation: YeastFlocculation = MEDIUM
+  form: YeastForm!
+  labId: ID!
+  minTemp: Float
+  maxTemp: Float
+  minAttenuation: Float
+  maxAttenuation: Float
+  name: String!
+  type: YeastType!
 }
 
 type YeastResponse {

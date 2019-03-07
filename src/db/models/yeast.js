@@ -9,6 +9,24 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.ENUM,
       values: ['LIQUID', 'DRY'],
     },
+    maxTemp: {
+      type: DataTypes.FLOAT,
+    },
+    minTemp: {
+      type: DataTypes.FLOAT,
+    },
+    maxAttenuation: {
+      type: DataTypes.FLOAT,
+    },
+    minAttenuation: {
+      type: DataTypes.FLOAT,
+    },
+    flocculation: {
+      type: DataTypes.ENUM,
+      values: ['LOW', 'MEDIUM', 'HIGH'],
+      allowNull: false,
+      defaultValue: 'MEDIUM',
+    },
     type: {
       allowNull: false,
       type: DataTypes.ENUM,
