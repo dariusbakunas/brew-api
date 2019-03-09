@@ -53,7 +53,7 @@ const resolvers = {
         },
       );
 
-      return config.dialect === 'postgresql' ? result[1].dataValues : dataSources.db.Fermentable.findById(id);
+      return config.dialect === 'postgres' ? result[1].dataValues : dataSources.db.Water.findById(id);
     },
     removeWater: async (_source, { id }, { dataSources }) => {
       const water = await dataSources.db.Water.findById(id);

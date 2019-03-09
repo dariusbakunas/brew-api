@@ -65,7 +65,7 @@ const resolvers = {
         },
       );
 
-      return config.dialect === 'postgresql' ? result[1].dataValues : dataSources.db.Fermentable.findById(id);
+      return config.dialect === 'postgres' ? result[1].dataValues : dataSources.db.Yeast.findById(id);
     },
     removeYeast: async (_source, { id }, { dataSources }) => {
       const yeast = await dataSources.db.Yeast.findById(id);
