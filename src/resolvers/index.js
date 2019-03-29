@@ -6,6 +6,7 @@ import quote from './quote';
 import fermentable from './fermentable';
 import water from './water';
 import yeast from './yeast';
+import recipe from './recipe';
 
 export default merge(
   country,
@@ -15,4 +16,5 @@ export default merge(
   fermentable,
   yeast,
   water,
+  recipe,
 );

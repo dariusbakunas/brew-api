@@ -1,0 +1,19 @@
+enum RecipeType {
+  ALL_GRAIN
+  EXTRACT
+  PARTIAL_MASH
+  CIDER
+  MEAD
+  WINE
+}
+
+type Recipe {
+  id: ID!
+  name: String!
+  type: RecipeType!
+  batchSize: Float!
+}
+
+extend type Query {
+  recipes: [Recipe!]!
+}
