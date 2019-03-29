@@ -18,7 +18,7 @@ const isIngredientManager = rule()((parent, args, { user }) => user.roles
   && user.roles.indexOf(ROLES.INGREDIENT_MANAGER) !== -1);
 
 const isUserManager = rule()((parent, args, { user }) => user.roles
-  && user.roles.indexOf(ROLES.INGREDIENT_MANAGER) !== -1);
+  && user.roles.indexOf(ROLES.USER_MANAGER) !== -1);
 
 const allow = rule()(() => true);
 const deny = rule()(() => false);
