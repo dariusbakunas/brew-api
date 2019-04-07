@@ -36,7 +36,7 @@ const middleware = shield({
     users: and(isActiveUser, or(isAdmin, isUserManager)),
     recipes: isActiveUser,
     roles: and(isActiveUser, or(isAdmin, isUserManager)),
-    userByEmail: isInitialAuth,
+    userByEmail: or(isInitialAuth, isAdmin),
   },
   Mutation: {
     // fermentables
