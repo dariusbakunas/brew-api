@@ -5,8 +5,15 @@ import ROLES from './roles';
 
 
 // TODO: implement this once users are able to have their own resources
-const isOwner = rule()(async (parent, args, { user }, info) => {
-  return true;
+const isOwner = rule()(async (parent, { id }, { user, dataSources }, { fieldName }) => {
+  switch (fieldName) {
+    case 'recipe': {
+      const count = await dataSources.db.Recipe.count({ where: { id, createdBy: user.id } });
+      return !!count;
+    }
+    default:
+      return false;
+  }
 });
 
 const isActiveUser = rule()((parent, args, { user }) => user.status === 'ACTIVE');
@@ -35,6 +42,7 @@ const middleware = shield({
     randomQuote: or(isGuest, isInitialAuth, isActiveUser),
     users: and(isActiveUser, or(isAdmin, isUserManager)),
     recipes: isActiveUser,
+    recipe: and(isActiveUser, isOwner),
     roles: and(isActiveUser, or(isAdmin, isUserManager)),
     userByEmail: or(isInitialAuth, isAdmin),
   },
@@ -76,6 +84,7 @@ const middleware = shield({
   Hop: allow,
   HopsResponse: allow,
   Invitation: allow,
+  LimitedUser: allow,
   PageInfo: allow,
   Recipe: allow,
   Role: allow,

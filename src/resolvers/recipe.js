@@ -6,6 +6,19 @@ const resolvers = {
       const recipes = await dataSources.db.Recipe.findAll();
       return recipes;
     },
+    recipe: async (_source, { id }, { dataSources }) => {
+      try {
+        const recipe = await dataSources.db.Recipe.findById(id, {
+          include: [{
+            model: dataSources.db.User,
+          }],
+        });
+
+        return recipe;
+      } catch (err) {
+        return handleError(err);
+      }
+    },
   },
   Mutation: {
     createRecipe: (_source, { input }, { dataSources, user }) => {

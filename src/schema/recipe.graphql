@@ -29,6 +29,7 @@ type Recipe {
 
 extend type Query {
   recipes: [Recipe!]!
+  recipe(id: ID!): Recipe
 }
 
 extend type Mutation {
