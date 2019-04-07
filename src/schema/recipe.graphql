@@ -10,8 +10,12 @@ enum RecipeType {
 type Recipe {
   id: ID!
   name: String!
+  description: String
   type: RecipeType!
   batchSize: Float!
+  boilTime: Float!
+  source: String
+  createdBy: LimitedUser!
 }
 
 extend type Query {

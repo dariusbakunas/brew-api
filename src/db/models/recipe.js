@@ -13,6 +13,16 @@ module.exports = (sequelize, Sequelize) => {
       allowNull: false,
       type: Sequelize.FLOAT,
     },
+    boilTime: {
+      allowNull: false,
+      type: Sequelize.FLOAT,
+    },
+    source: {
+      type: Sequelize.STRING,
+    },
+    description: {
+      type: Sequelize.TEXT,
+    },
     createdAt: {
       allowNull: false,
       type: Sequelize.DATE,
@@ -24,6 +34,16 @@ module.exports = (sequelize, Sequelize) => {
   }, {
     tableName: 'recipes',
   });
+
+  Recipe.associate = (models) => {
+    Recipe.belongsTo(
+      models.User,
+      {
+        foreignKey: 'id',
+        as: 'createdBy',
+      },
+    );
+  };
 
   return Recipe;
 };
