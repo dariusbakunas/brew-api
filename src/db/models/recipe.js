@@ -39,8 +39,9 @@ module.exports = (sequelize, Sequelize) => {
     Recipe.belongsTo(
       models.User,
       {
-        foreignKey: 'id',
-        as: 'createdBy',
+        foreignKey: {
+          fieldName: 'createdBy',
+        },
       },
     );
   };
