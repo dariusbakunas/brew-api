@@ -7,6 +7,15 @@ enum RecipeType {
   WINE
 }
 
+input RecipeInput {
+  name: String!
+  description: String
+  source: String
+  type: RecipeType!
+  batchSize: Float!
+  boilTime: Float
+}
+
 type Recipe {
   id: ID!
   name: String!
@@ -20,4 +29,8 @@ type Recipe {
 
 extend type Query {
   recipes: [Recipe!]!
+}
+
+extend type Mutation {
+  createRecipe(input: RecipeInput!): Recipe!
 }

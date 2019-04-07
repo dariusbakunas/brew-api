@@ -59,6 +59,9 @@ const middleware = shield({
     removeHop: and(isActiveUser, or(isAdmin, isIngredientManager)),
     updateHop: and(isActiveUser, or(isAdmin, isIngredientManager)),
 
+    // recipes
+    createRecipe: isActiveUser,
+
     // users
     activateUser: allow,
     createInvitation: and(isActiveUser, or(isAdmin, isUserManager)),
