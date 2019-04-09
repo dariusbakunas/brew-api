@@ -6,14 +6,12 @@ import ROLES from './roles';
 
 // TODO: implement this once users are able to have their own resources
 const isOwner = rule()(async (parent, { id }, { user, dataSources }, { fieldName }) => {
-  switch (fieldName) {
-    case 'recipe': {
-      const count = await dataSources.db.Recipe.count({ where: { id, createdBy: user.id } });
-      return !!count;
-    }
-    default:
-      return false;
+  if (fieldName === 'recipe' || fieldName === 'updateRecipe') {
+    const count = await dataSources.db.Recipe.count({ where: { id, createdBy: user.id } });
+    return !!count;
   }
+
+  return false;
 });
 
 const isActiveUser = rule()((parent, args, { user }) => user.status === 'ACTIVE');
@@ -69,6 +67,7 @@ const middleware = shield({
 
     // recipes
     createRecipe: isActiveUser,
+    updateRecipe: and(isActiveUser, isOwner),
 
     // users
     activateUser: allow,

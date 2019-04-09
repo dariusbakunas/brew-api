@@ -58,7 +58,7 @@ const resolvers = {
         },
       );
 
-      return config.dialect === 'postgres' ? result[1].dataValues : dataSources.db.Fermentable.findById(id);
+      return config.dialect === 'postgres' ? result[1].dataValues : dataSources.db.Hop.findById(id);
     },
     removeHop: async (_source, { id }, { dataSources }) => {
       const hop = await dataSources.db.Hop.findById(id);
