@@ -1,3 +1,4 @@
+import { UserInputError } from 'apollo-server-express';
 import Sequelize from 'sequelize';
 import handleError from './handleError';
 
@@ -61,6 +62,16 @@ const resolvers = {
       );
 
       return config.dialect === 'postgres' ? result[1].dataValues : dataSources.db.Recipe.findById(id);
+    },
+    removeRecipe: async (_source, { id }, { dataSources }) => {
+      const recipe = await dataSources.db.Recipe.findById(id);
+
+      if (!recipe) {
+        throw new UserInputError('Recipe does not exist');
+      }
+
+      await recipe.destroy();
+      return id;
     },
   },
   Recipe: {

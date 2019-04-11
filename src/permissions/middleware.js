@@ -6,7 +6,7 @@ import ROLES from './roles';
 
 // TODO: implement this once users are able to have their own resources
 const isOwner = rule()(async (parent, { id }, { user, dataSources }, { fieldName }) => {
-  if (fieldName === 'recipe' || fieldName === 'updateRecipe') {
+  if (fieldName === 'recipe' || fieldName === 'updateRecipe' || fieldName === 'removeRecipe') {
     const count = await dataSources.db.Recipe.count({ where: { id, createdBy: user.id } });
     return !!count;
   }
@@ -68,6 +68,7 @@ const middleware = shield({
     // recipes
     createRecipe: isActiveUser,
     updateRecipe: and(isActiveUser, isOwner),
+    removeRecipe: and(isActiveUser, isOwner),
 
     // users
     activateUser: allow,

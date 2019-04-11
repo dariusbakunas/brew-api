@@ -35,4 +35,5 @@ extend type Query {
 extend type Mutation {
   createRecipe(input: RecipeInput!): Recipe!
   updateRecipe(id: ID!, input: RecipeInput!): Recipe!
+  removeRecipe(id: ID!): ID!
 }
