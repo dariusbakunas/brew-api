@@ -42,7 +42,7 @@ const resolvers = {
   },
   Mutation: {
     createYeast: (_source, { input }, { dataSources }) => dataSources.db.Yeast.create(input)
-      .then(yeast => dataSources.db.Yeast.findById(yeast.id, {
+      .then(yeast => dataSources.db.Yeast.findByPk(yeast.id, {
         include: [{
           model: dataSources.db.YeastLab,
           as: 'lab',
@@ -65,10 +65,10 @@ const resolvers = {
         },
       );
 
-      return config.dialect === 'postgres' ? result[1].dataValues : dataSources.db.Yeast.findById(id);
+      return config.dialect === 'postgres' ? result[1].dataValues : dataSources.db.Yeast.findByPk(id);
     },
     removeYeast: async (_source, { id }, { dataSources }) => {
-      const yeast = await dataSources.db.Yeast.findById(id);
+      const yeast = await dataSources.db.Yeast.findByPk(id);
 
       if (!yeast) {
         throw new UserInputError('Hop does not exist');
@@ -80,7 +80,7 @@ const resolvers = {
   },
   Yeast: {
     lab: (parent, _args, { dataSources }) => {
-      return dataSources.db.YeastLab.findById(parent.labId);
+      return dataSources.db.YeastLab.findByPk(parent.labId);
     },
   },
 };

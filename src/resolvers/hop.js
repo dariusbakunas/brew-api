@@ -35,7 +35,7 @@ const resolvers = {
   },
   Mutation: {
     createHop: (_source, { input }, { dataSources }) => dataSources.db.Hop.create(input)
-      .then(hop => dataSources.db.Hop.findById(hop.id, {
+      .then(hop => dataSources.db.Hop.findByPk(hop.id, {
         include: [{
           model: dataSources.db.Country,
           as: 'origin',
@@ -58,10 +58,10 @@ const resolvers = {
         },
       );
 
-      return config.dialect === 'postgres' ? result[1].dataValues : dataSources.db.Hop.findById(id);
+      return config.dialect === 'postgres' ? result[1].dataValues : dataSources.db.Hop.findByPk(id);
     },
     removeHop: async (_source, { id }, { dataSources }) => {
-      const hop = await dataSources.db.Hop.findById(id);
+      const hop = await dataSources.db.Hop.findByPk(id);
 
       if (!hop) {
         throw new UserInputError('Hop does not exist');
@@ -73,7 +73,7 @@ const resolvers = {
   },
   Hop: {
     // TODO: use data loaders to optimize
-    origin: (parent, _args, { dataSources }) => dataSources.db.Country.findById(parent.originId),
+    origin: (parent, _args, { dataSources }) => dataSources.db.Country.findByPk(parent.originId),
   },
 };
 

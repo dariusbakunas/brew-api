@@ -35,7 +35,7 @@ const resolvers = {
   },
   Mutation: {
     createFermentable: (_source, { input }, { dataSources }) => dataSources.db.Fermentable.create(input)
-      .then(fermentable => dataSources.db.Fermentable.findById(fermentable.id, {
+      .then(fermentable => dataSources.db.Fermentable.findByPk(fermentable.id, {
         include: [{
           model: dataSources.db.Country,
           as: 'origin',
@@ -58,10 +58,10 @@ const resolvers = {
         },
       );
 
-      return config.dialect === 'postgres' ? result[1].dataValues : dataSources.db.Fermentable.findById(id);
+      return config.dialect === 'postgres' ? result[1].dataValues : dataSources.db.Fermentable.findByPk(id);
     },
     removeFermentable: async (_source, { id }, { dataSources }) => {
-      const fermentable = await dataSources.db.Fermentable.findById(id);
+      const fermentable = await dataSources.db.Fermentable.findByPk(id);
 
       if (!fermentable) {
         throw new UserInputError('Fermentable does not exist');
@@ -73,7 +73,7 @@ const resolvers = {
   },
   Fermentable: {
     origin: (parent, _args, { dataSources }) => {
-      return dataSources.db.Country.findById(parent.originId);
+      return dataSources.db.Country.findByPk(parent.originId);
     },
   },
 };

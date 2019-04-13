@@ -35,7 +35,7 @@ const resolvers = {
   },
   Mutation: {
     createWater: (_source, { input }, { dataSources }) => dataSources.db.Water.create(input)
-      .then(water => dataSources.db.Water.findById(water.id))
+      .then(water => dataSources.db.Water.findByPk(water.id))
       .catch((err) => {
         handleError(err);
       }),
@@ -53,10 +53,10 @@ const resolvers = {
         },
       );
 
-      return config.dialect === 'postgres' ? result[1].dataValues : dataSources.db.Water.findById(id);
+      return config.dialect === 'postgres' ? result[1].dataValues : dataSources.db.Water.findByPk(id);
     },
     removeWater: async (_source, { id }, { dataSources }) => {
-      const water = await dataSources.db.Water.findById(id);
+      const water = await dataSources.db.Water.findByPk(id);
 
       if (!water) {
         throw new UserInputError('Water does not exist');

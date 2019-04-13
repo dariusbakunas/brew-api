@@ -17,7 +17,7 @@ const resolvers = {
     },
     recipe: async (_source, { id }, { dataSources }) => {
       try {
-        const recipe = await dataSources.db.Recipe.findById(id, {
+        const recipe = await dataSources.db.Recipe.findByPk(id, {
           include: [{
             model: dataSources.db.User,
           }],
@@ -37,12 +37,7 @@ const resolvers = {
       };
 
       return dataSources.db.Recipe.create(recipeInput)
-        .then(recipe => dataSources.db.Recipe.findById(recipe.id, {
-          include: [{
-            model: dataSources.db.User,
-            as: 'createdBy',
-          }],
-        }))
+        .then(recipe => dataSources.db.Recipe.findByPk(recipe.id))
         .catch((err) => {
           handleError(err);
         });
@@ -61,10 +56,10 @@ const resolvers = {
         },
       );
 
-      return config.dialect === 'postgres' ? result[1].dataValues : dataSources.db.Recipe.findById(id);
+      return config.dialect === 'postgres' ? result[1].dataValues : dataSources.db.Recipe.findByPk(id);
     },
     removeRecipe: async (_source, { id }, { dataSources }) => {
-      const recipe = await dataSources.db.Recipe.findById(id);
+      const recipe = await dataSources.db.Recipe.findByPk(id);
 
       if (!recipe) {
         throw new UserInputError('Recipe does not exist');
@@ -75,7 +70,7 @@ const resolvers = {
     },
   },
   Recipe: {
-    createdBy: (parent, _args, { dataSources }) => dataSources.db.User.findById(parent.createdBy),
+    createdBy: (parent, _args, { dataSources }) => dataSources.db.User.findByPk(parent.createdBy),
   },
 };
 

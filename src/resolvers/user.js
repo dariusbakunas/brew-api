@@ -43,7 +43,7 @@ const resolvers = {
       return { success: false };
     },
     createRole: async (_source, { input }, { dataSources }) => dataSources.db.Role.create(input)
-      .then(role => dataSources.db.Role.findById(role.id))
+      .then(role => dataSources.db.Role.findByPk(role.id))
       .catch((err) => {
         handleError(err);
       }),
@@ -72,7 +72,7 @@ const resolvers = {
       }
     },
     removeUser: async (_source, { id }, { dataSources }) => {
-      const user = await dataSources.db.User.findById(id);
+      const user = await dataSources.db.User.findByPk(id);
 
       if (!user) {
         throw new UserInputError('User does not exist');
