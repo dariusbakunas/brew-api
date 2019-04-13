@@ -17,11 +17,7 @@ const resolvers = {
     },
     recipe: async (_source, { id }, { dataSources }) => {
       try {
-        const recipe = await dataSources.db.Recipe.findByPk(id, {
-          include: [{
-            model: dataSources.db.User,
-          }],
-        });
+        const recipe = await dataSources.db.Recipe.findByPk(id);
 
         return recipe;
       } catch (err) {
