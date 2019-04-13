@@ -1,5 +1,16 @@
 module.exports = (sequelize, Sequelize) => {
   const Recipe = sequelize.define('Recipe', {
+    createdBy: {
+      type: Sequelize.INTEGER,
+
+      references: {
+        // This is a reference to another model
+        model: sequelize.User,
+
+        // This is the column name of the referenced model
+        key: 'id',
+      },
+    },
     name: {
       allowNull: false,
       unique: true,
@@ -34,17 +45,6 @@ module.exports = (sequelize, Sequelize) => {
   }, {
     tableName: 'recipes',
   });
-
-  Recipe.associate = (models) => {
-    Recipe.belongsTo(
-      models.User,
-      {
-        foreignKey: {
-          fieldName: 'createdBy',
-        },
-      },
-    );
-  };
 
   return Recipe;
 };
