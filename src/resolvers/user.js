@@ -9,14 +9,21 @@ const { Op } = Sequelize;
 
 const resolvers = {
   Query: {
-    invitations: (_source, _args, { dataSources }) => dataSources.db.Invitation.findAll(),
-    roles: (_source, _args, { dataSources }) => dataSources.db.Role.findAll(),
-    users: (_source, _args, { dataSources }) => dataSources.db.User.findAll(),
-    userByEmail: (_source, { email }, { dataSources }) => dataSources.db.User.find({
+    invitations: (_, _args, { dataSources }) => dataSources.db.Invitation.findAll(),
+    roles: (_, _args, { dataSources }) => dataSources.db.Role.findAll(),
+    user: (_, { id }, { dataSources }) => dataSources.db.User.findByPk(id, {
+      include: [{
+        model: dataSources.db.Role,
+        as: 'roles',
+      }],
+    }),
+    users: (_, _args, { dataSources }) => dataSources.db.User.findAll(),
+    userByEmail: (_source, { email }, { dataSources }) => dataSources.db.User.findAll({
       include: [{// Notice `include` takes an ARRAY
         model: dataSources.db.Role,
         as: 'roles',
       }],
+      limit: 1,
       where: {
         email: {
           [Op.eq]: email,
@@ -70,6 +77,27 @@ const resolvers = {
       } catch (err) {
         handleError(err);
       }
+    },
+    updateUser: async (_, { id, input }, { dataSources }) => {
+      await dataSources.db.sequelize.transaction(t => dataSources.db.User.update(
+        input,
+        {
+          where: {
+            id: {
+              [Sequelize.Op.eq]: id,
+            },
+          },
+          transaction: t,
+          returning: true,
+        },
+      ).then(user => user[1][0].setRoles(input.roleIds, { transaction: t })));
+
+      return dataSources.db.User.findByPk(id, {
+        include: [{
+          model: dataSources.db.Role,
+          as: 'roles',
+        }],
+      });
     },
     removeUser: async (_source, { id }, { dataSources }) => {
       const user = await dataSources.db.User.findByPk(id);
