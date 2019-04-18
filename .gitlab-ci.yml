@@ -7,7 +7,7 @@ cache:
 stages:
   - test
 
-test_async:
+test:
   stage: test
   script:
     - npm install
