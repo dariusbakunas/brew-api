@@ -14,16 +14,24 @@ const isOwner = rule()(async (parent, { id }, { user, dataSources }, { fieldName
   return false;
 });
 
+const hasRole = (user, role) => {
+  const result = user.roles
+    && user.roles.find(r => r.code === role);
+  return !!result;
+};
+
 const isActiveUser = rule()((parent, args, { user }) => user.status === 'ACTIVE');
 const isAdmin = rule()((parent, args, { user }) => user.isAdmin);
 const isGuest = rule()((parent, args, { user }) => user.status === 'GUEST');
 const isInitialAuth = rule()((parent, args, { user }) => !!user.initialAuth);
 
-const isIngredientManager = rule()((parent, args, { user }) => user.roles
-  && user.roles.indexOf(ROLES.INGREDIENT_MANAGER) !== -1);
+const isIngredientManager = rule()((parent, args, { user }) => hasRole(
+  user, ROLES.INGREDIENT_MANAGER,
+));
 
-const isUserManager = rule()((parent, args, { user }) => user.roles
-  && user.roles.indexOf(ROLES.USER_MANAGER) !== -1);
+const isUserManager = rule()((parent, args, { user }) => hasRole(
+  user, ROLES.USER_MANAGER,
+));
 
 const allow = rule()(() => true);
 const deny = rule()(() => false);
