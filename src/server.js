@@ -57,7 +57,6 @@ passport.use(new Strategy(passportOpts, async (payload, done) => {
   if (payload) {
     const { user: requestUser } = payload;
 
-    // TODO: maybe load user from database instead?
     if (requestUser.status === 'ACTIVE') {
       // TODO: only select specific attributes
       const user = await db.User.findOne({
@@ -74,12 +73,27 @@ passport.use(new Strategy(passportOpts, async (payload, done) => {
       });
 
       const { id, email, username } = user;
+
       Sentry.configureScope((scope) => {
         scope.setUser({ id, email, username });
       });
 
       done(null, user.toJSON());
     } else {
+      if (requestUser.status === 'GUEST') {
+        // user at login screen
+        Sentry.configureScope((scope) => {
+          scope.setUser({ username: 'GUEST' });
+        });
+      } else {
+        // new user, not yet registered
+        const { email, username } = requestUser;
+
+        Sentry.configureScope((scope) => {
+          scope.setUser({ username, email });
+        });
+      }
+
       done(null, requestUser);
     }
   } else {
