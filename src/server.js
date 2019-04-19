@@ -53,9 +53,29 @@ const passportOpts = {
   secretOrKey: process.env.JWT_SECRET,
 };
 
-passport.use(new Strategy(passportOpts, (payload, done) => {
+passport.use(new Strategy(passportOpts, async (payload, done) => {
   if (payload) {
-    done(null, payload.user);
+    const { user: requestUser } = payload;
+
+    // TODO: maybe load user from database instead?
+    if (requestUser.status === 'ACTIVE') {
+      // TODO: only select specific attributes
+      const user = await db.User.findOne({
+        include: [{
+          model: db.Role,
+          as: 'roles',
+        }],
+        where: {
+          email: {
+            [Sequelize.Op.eq]: requestUser.email,
+          },
+        },
+        plain: true,
+      });
+      done(null, user.toJSON());
+    } else {
+      done(null, requestUser);
+    }
   } else {
     done('Forbidden');
   }

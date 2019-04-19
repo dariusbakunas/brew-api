@@ -1,6 +1,6 @@
 const ROLES = {
-  INGREDIENT_MANAGER: 'Ingredient Manager',
-  USER_MANAGER: 'User Manager',
+  INGREDIENT_MANAGER: 'MANAGE_INGREDIENTS',
+  USER_MANAGER: 'MANAGE_USERS',
 };
 
 module.exports = ROLES;
