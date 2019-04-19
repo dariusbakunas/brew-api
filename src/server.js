@@ -6,12 +6,16 @@ import { Strategy, ExtractJwt } from 'passport-jwt';
 import { applyMiddleware } from 'graphql-middleware';
 import { makeExecutableSchema } from 'graphql-tools';
 import rateLimit from 'express-rate-limit';
+import Sequelize from 'sequelize';
+import * as Sentry from '@sentry/node';
 import logger from './logger';
 import loadSchemas from './schema/loadSchemas';
 import db from './db/models/index';
 import resolvers from './resolvers/index';
 import EmailSender from './email/emailSender';
 import permissionMiddleware from './permissions/middleware';
+
+Sentry.init({ dsn: 'https://de2d029de9864c578f4dfc3bec83a0c4@sentry.io/1442438' });
 
 const typeDefs = loadSchemas();
 const emailSender = new EmailSender();
