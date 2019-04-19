@@ -72,6 +72,12 @@ passport.use(new Strategy(passportOpts, async (payload, done) => {
         },
         plain: true,
       });
+
+      const { id, email, username } = user;
+      Sentry.configureScope((scope) => {
+        scope.setUser({ id, email, username });
+      });
+
       done(null, user.toJSON());
     } else {
       done(null, requestUser);
