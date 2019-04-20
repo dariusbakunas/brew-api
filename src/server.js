@@ -42,7 +42,8 @@ const server = new ApolloServer({
   context: async ({ req }) => {
     return { user: req.user };
   },
-  formatError: error => {
+  formatError: (error) => {
+    Sentry.captureException(error);
     logger.error(error.message);
     return error;
   },
