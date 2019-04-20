@@ -79,25 +79,33 @@ const resolvers = {
       }
     },
     updateUser: async (_, { id, input }, { dataSources }) => {
-      await dataSources.db.sequelize.transaction(t => dataSources.db.User.update(
-        input,
-        {
-          where: {
-            id: {
-              [Sequelize.Op.eq]: id,
-            },
-          },
-          transaction: t,
-          returning: true,
-        },
-      ).then(user => user[1][0].setRoles(input.roleIds, { transaction: t })));
+      let user = null;
 
-      return dataSources.db.User.findByPk(id, {
-        include: [{
-          model: dataSources.db.Role,
-          as: 'roles',
-        }],
+      await dataSources.db.sequelize.transaction(async (t) => {
+        await dataSources.db.User.update(
+          input,
+          {
+            where: {
+              id: {
+                [Sequelize.Op.eq]: id,
+              },
+            },
+            transaction: t,
+          },
+        );
+
+        user = await dataSources.db.User.findByPk(id, {
+          include: [{
+            model: dataSources.db.Role,
+            as: 'roles',
+          }],
+          transaction: t,
+        });
+
+        await user.setRoles(input.roleIds, { transaction: t });
       });
+
+      return user;
     },
     removeUser: async (_source, { id }, { dataSources }) => {
       const user = await dataSources.db.User.findByPk(id);

@@ -7,7 +7,19 @@
 
 ## Starting Local dev database
 
-    % docker-compose -f db.yaml up
+    % docker-compose -f db.yaml up -d
+    
+* run migration:
+    
+      % npm run db:dev db:migrate
+    
+* seed initial data:
+
+      % npm run db:dev db:seed -- --seed src/db/seeders/*
+    
+* make sure quotes table has at least one entry
+* manually add invitation to invitations table and use that code during initial user registration
+
 
 ## Sequelize CLI:
 
