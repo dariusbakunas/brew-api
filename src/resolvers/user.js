@@ -79,8 +79,6 @@ const resolvers = {
       }
     },
     updateUser: async (_, { id, input }, { dataSources }) => {
-      let user = null;
-
       await dataSources.db.sequelize.transaction(async (t) => {
         await dataSources.db.User.update(
           input,
@@ -94,18 +92,17 @@ const resolvers = {
           },
         );
 
-        user = await dataSources.db.User.findByPk(id, {
-          include: [{
-            model: dataSources.db.Role,
-            as: 'roles',
-          }],
-          transaction: t,
-        });
+        const user = await dataSources.db.User.findByPk(id, { transaction: t });
 
         await user.setRoles(input.roleIds, { transaction: t });
       });
 
-      return user;
+      return dataSources.db.User.findByPk(id, {
+        include: [{
+          model: dataSources.db.Role,
+          as: 'roles',
+        }],
+      });
     },
     removeUser: async (_source, { id }, { dataSources }) => {
       const user = await dataSources.db.User.findByPk(id);
