@@ -14,8 +14,12 @@ import db from './db/models/index';
 import resolvers from './resolvers/index';
 import EmailSender from './email/emailSender';
 import permissionMiddleware from './permissions/middleware';
+import pJson from '../package.json';
 
-Sentry.init({ dsn: 'https://de2d029de9864c578f4dfc3bec83a0c4@sentry.io/1442438' });
+Sentry.init({
+  dsn: 'https://de2d029de9864c578f4dfc3bec83a0c4@sentry.io/1442438',
+  release: `${pJson.name}@${pJson.version}`,
+});
 
 const typeDefs = loadSchemas();
 const emailSender = new EmailSender();
