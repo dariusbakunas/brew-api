@@ -46,7 +46,6 @@ input FermentableInput {
   description: String
   originId: ID!
   type: FermentableType
-  potential: Float
   yield: Float!
 }
 

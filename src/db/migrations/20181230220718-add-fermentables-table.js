@@ -24,10 +24,6 @@ module.exports = {
       allowNull: false,
       type: Sequelize.FLOAT,
     },
-    potential: {
-      allowNull: false,
-      type: Sequelize.FLOAT,
-    },
     originId: {
       allowNull: false,
       type: Sequelize.INTEGER,

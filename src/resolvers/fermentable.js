@@ -75,6 +75,10 @@ const resolvers = {
     origin: (parent, _args, { dataSources }) => {
       return dataSources.db.Country.findByPk(parent.originId);
     },
+    potential: (parent, _args, { dataSources }) => {
+      const potential = 1 + (parent.yield / 100) * 0.04621;
+      return potential.toFixed(3); // TODO: add potential formula
+    },
   },
 };
 

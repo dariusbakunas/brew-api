@@ -15,10 +15,6 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.FLOAT,
     },
-    potential: {
-      allowNull: false,
-      type: DataTypes.FLOAT,
-    },
     yield: {
       allowNull: false,
       type: DataTypes.FLOAT,
