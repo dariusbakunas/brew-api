@@ -1,6 +1,6 @@
-import { getPagedQuery, getNextCursor } from './paging';
 import { UserInputError } from 'apollo-server-express';
 import Sequelize from 'sequelize';
+import { getPagedQuery, getNextCursor } from './paging';
 
 describe('paging', () => {
   describe('getPagingQuery', () => {
@@ -12,11 +12,12 @@ describe('paging', () => {
           ['name', 'ASC'],
           ['id', 'ASC'],
         ],
+        where: {},
       });
     });
 
     it('should include where clause if cursor is specified', () => {
-      const testCursor = 'W3sia2V5IjoibmFtZSIsInZhbHVlIjoiQXBvbG9uIn0seyJrZXkiOiJpZCIsInZhbHVlIjo0NH1d';
+      const testCursor = 'WyJBcG9sb24iLDQ0XQ==';
       const query = getPagedQuery(testCursor, 20, 'name', 'ASCENDING');
       expect(query).toEqual({
         limit: 21,
@@ -25,12 +26,18 @@ describe('paging', () => {
           ['id', 'ASC'],
         ],
         where: {
-          id: {
-            [Sequelize.Op.gte]: 44,
-          },
-          name: {
-            [Sequelize.Op.gte]: 'Apolon',
-          },
+          [Sequelize.Op.and]: [
+            {
+              [Sequelize.Op.or]: [
+                { name: { [Sequelize.Op.gt]: 'Apolon' } },
+                {
+                  id: { [Sequelize.Op.gt]: 44 },
+                  name: 'Apolon',
+                },
+              ],
+            },
+            {},
+          ],
         },
       });
     });
@@ -51,7 +58,7 @@ describe('paging', () => {
   describe('getNextCursor', () => {
     it('should return encoded cursor', () => {
       const cursor = getNextCursor({ id: 44, name: 'Apolon' }, 'name');
-      expect(cursor).toEqual('W3sia2V5IjoibmFtZSIsInZhbHVlIjoiQXBvbG9uIn0seyJrZXkiOiJpZCIsInZhbHVlIjo0NH1d');
+      expect(cursor).toEqual('WyJBcG9sb24iLDQ0XQ==');
     });
   });
 });

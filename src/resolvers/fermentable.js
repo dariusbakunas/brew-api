@@ -7,13 +7,14 @@ const env = process.env.NODE_ENV || 'development';
 const config = require('../config/database.js')[env];
 
 const convertSortableColumn = column => ({
+  ID: 'id',
   NAME: 'name',
 }[column]);
 
 const resolvers = {
   Query: {
     fermentables: async (_source, {
-      cursor: encodedCursor, limit, sortBy, sortDirection,
+      cursor: encodedCursor, limit, sortBy = 'ID', sortDirection,
     }, { dataSources }) => {
       const sortByColumn = convertSortableColumn(sortBy);
 
