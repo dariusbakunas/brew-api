@@ -34,7 +34,8 @@ type HopsResponse {
 
 extend type Query {
   hops(
-    cursor: String,
+    nextCursor: String
+    prevCursor: String
     limit: Int = 10,
     sortDirection: SortDirection = ASCENDING,
     sortBy: SortableHopField = NAME

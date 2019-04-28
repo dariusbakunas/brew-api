@@ -51,7 +51,8 @@ input FermentableInput {
 
 extend type Query {
   fermentables(
-    cursor: String
+    nextCursor: String
+    prevCursor: String
     limit: Int = 10
     sortDirection: SortDirection = ASCENDING
     sortBy: SortableFermentableField = NAME
