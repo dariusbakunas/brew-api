@@ -1,36 +1,59 @@
-import { getPagedQuery, getNextCursor } from './paging';
 import { UserInputError } from 'apollo-server-express';
 import Sequelize from 'sequelize';
+import { getPagingQuery, getPagingCursors } from './paging';
 
 describe('paging', () => {
   describe('getPagingQuery', () => {
     it('should return valid query if no cursor provided', () => {
-      const query = getPagedQuery(null, 20, 'name', 'ASCENDING');
+      const query = getPagingQuery(
+        null,
+        null,
+        'name',
+        'ASCENDING',
+        'id',
+        20,
+        {},
+      );
       expect(query).toEqual({
         limit: 21,
         order: [
-          ['name', 'ASC'],
-          ['id', 'ASC'],
+          'name',
+          'id',
         ],
+        where: {},
       });
     });
 
     it('should include where clause if cursor is specified', () => {
-      const testCursor = 'W3sia2V5IjoibmFtZSIsInZhbHVlIjoiQXBvbG9uIn0seyJrZXkiOiJpZCIsInZhbHVlIjo0NH1d';
-      const query = getPagedQuery(testCursor, 20, 'name', 'ASCENDING');
+      const testCursor = 'WyJBcG9sb24iLDQ0XQ==';
+      const query = getPagingQuery(
+        null,
+        testCursor,
+        'name',
+        'ACENDING',
+        'id',
+        20,
+        {},
+      );
       expect(query).toEqual({
         limit: 21,
         order: [
-          ['name', 'ASC'],
-          ['id', 'ASC'],
+          'name',
+          'id',
         ],
         where: {
-          id: {
-            [Sequelize.Op.gte]: 44,
-          },
-          name: {
-            [Sequelize.Op.gte]: 'Apolon',
-          },
+          [Sequelize.Op.and]: [
+            {
+              [Sequelize.Op.or]: [
+                { name: { [Sequelize.Op.gt]: 'Apolon' } },
+                {
+                  id: { [Sequelize.Op.gt]: 44 },
+                  name: 'Apolon',
+                },
+              ],
+            },
+            {},
+          ],
         },
       });
     });
@@ -39,7 +62,15 @@ describe('paging', () => {
       let error;
 
       try {
-        getPagedQuery(null, 110, 'name', 'ASCENDING');
+        getPagingQuery(
+          null,
+          null,
+          'name',
+          'ASCENDING',
+          'id',
+          110,
+          {},
+        );
       } catch (e) {
         error = e;
       }
@@ -48,10 +79,19 @@ describe('paging', () => {
     });
   });
 
-  describe('getNextCursor', () => {
-    it('should return encoded cursor', () => {
-      const cursor = getNextCursor({ id: 44, name: 'Apolon' }, 'name');
-      expect(cursor).toEqual('W3sia2V5IjoibmFtZSIsInZhbHVlIjoiQXBvbG9uIn0seyJrZXkiOiJpZCIsInZhbHVlIjo0NH1d');
+  describe('getCursor', () => {
+    it('should return encoded cursors', () => {
+      const { nextCursor, prevCursor } = getPagingCursors(
+        true,
+        false,
+        [{ name: 'a', id: 1 }, { name: 'b', id: 2 }, { name: 'c', id: 3 }],
+        true,
+        'name',
+        'id',
+      );
+
+      expect(nextCursor).toEqual('WyJjIiwzXQ=='); // ['c', 3]
+      expect(prevCursor).toEqual('WyJhIiwxXQ=='); // ['a', 1]
     });
   });
 });
