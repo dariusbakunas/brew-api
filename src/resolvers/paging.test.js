@@ -1,16 +1,24 @@
 import { UserInputError } from 'apollo-server-express';
 import Sequelize from 'sequelize';
-import { getPagedQuery, getNextCursor } from './paging';
+import { getPagingQuery, getPagingCursors } from './paging';
 
 describe('paging', () => {
   describe('getPagingQuery', () => {
     it('should return valid query if no cursor provided', () => {
-      const query = getPagedQuery(null, 20, 'name', 'ASCENDING');
+      const query = getPagingQuery(
+        null,
+        null,
+        'name',
+        'ASCENDING',
+        'id',
+        20,
+        {},
+      );
       expect(query).toEqual({
         limit: 21,
         order: [
-          ['name', 'ASC'],
-          ['id', 'ASC'],
+          'name',
+          'id',
         ],
         where: {},
       });
@@ -18,12 +26,20 @@ describe('paging', () => {
 
     it('should include where clause if cursor is specified', () => {
       const testCursor = 'WyJBcG9sb24iLDQ0XQ==';
-      const query = getPagedQuery(testCursor, 20, 'name', 'ASCENDING');
+      const query = getPagingQuery(
+        null,
+        testCursor,
+        'name',
+        'ACENDING',
+        'id',
+        20,
+        {},
+      );
       expect(query).toEqual({
         limit: 21,
         order: [
-          ['name', 'ASC'],
-          ['id', 'ASC'],
+          'name',
+          'id',
         ],
         where: {
           [Sequelize.Op.and]: [
@@ -46,7 +62,15 @@ describe('paging', () => {
       let error;
 
       try {
-        getPagedQuery(null, 110, 'name', 'ASCENDING');
+        getPagingQuery(
+          null,
+          null,
+          'name',
+          'ASCENDING',
+          'id',
+          110,
+          {},
+        );
       } catch (e) {
         error = e;
       }
@@ -55,10 +79,19 @@ describe('paging', () => {
     });
   });
 
-  describe('getNextCursor', () => {
-    it('should return encoded cursor', () => {
-      const cursor = getNextCursor({ id: 44, name: 'Apolon' }, 'name');
-      expect(cursor).toEqual('WyJBcG9sb24iLDQ0XQ==');
+  describe('getCursor', () => {
+    it('should return encoded cursors', () => {
+      const { nextCursor, prevCursor } = getPagingCursors(
+        true,
+        false,
+        [{ name: 'a', id: 1 }, { name: 'b', id: 2 }, { name: 'c', id: 3 }],
+        true,
+        'name',
+        'id',
+      );
+
+      expect(nextCursor).toEqual('WyJjIiwzXQ=='); // ['c', 3]
+      expect(prevCursor).toEqual('WyJhIiwxXQ=='); // ['a', 1]
     });
   });
 });

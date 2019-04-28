@@ -36,7 +36,8 @@ input WaterInput {
 
 extend type Query {
   water(
-    cursor: String
+    nextCursor: String
+    prevCursor: String
     limit: Int = 10
     sortDirection: SortDirection = ASCENDING
     sortBy: SortableWaterField = NAME

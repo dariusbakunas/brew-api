@@ -1,10 +1,12 @@
 import Sequelize from 'sequelize';
 import { UserInputError } from 'apollo-server-express';
-import { getPagedQuery, getNextCursor } from './paging';
+import { getPagedQuery, getCursor, getPagingQuery, getPagingCursors } from './paging';
 import handleError from './handleError';
 
 const env = process.env.NODE_ENV || 'development';
 const config = require('../config/database.js')[env];
+
+const PRIMARY_KEY_COL = 'id';
 
 const convertSortableColumn = column => ({
   NAME: 'name',
@@ -13,22 +15,35 @@ const convertSortableColumn = column => ({
 const resolvers = {
   Query: {
     water: async (_source, {
-      cursor: encodedCursor, limit, sortBy, sortDirection,
+      nextCursor: encodedNextCursor, prevCursor: encodedPrevCursor, limit, sortBy, sortDirection,
     }, { dataSources }) => {
       const sortByColumn = convertSortableColumn(sortBy);
+      const where = {}; // TODO: enable where clause
 
-      const query = getPagedQuery(encodedCursor, limit, sortByColumn, sortDirection);
+      const query = getPagingQuery(
+        encodedPrevCursor, encodedNextCursor, sortByColumn,
+        sortDirection, PRIMARY_KEY_COL, limit, where,
+      );
       const water = await dataSources.db.Water.findAll(query);
-      let nextCursor = null;
 
-      if (water.length > limit) {
-        nextCursor = getNextCursor(water.pop(), sortByColumn);
+      const hasMore = water.length > limit;
+
+      if (hasMore) {
+        water.pop();
       }
+
+      if (encodedPrevCursor) {
+        water.reverse();
+      }
+
+      const cursors = getPagingCursors(
+        !!encodedNextCursor, !!encodedPrevCursor, water, hasMore, sortByColumn, PRIMARY_KEY_COL,
+      );
 
       return {
         data: water,
         pageInfo: {
-          nextCursor,
+          ...cursors,
         },
       };
     },

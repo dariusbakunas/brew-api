@@ -1,10 +1,12 @@
 import Sequelize from 'sequelize';
 import { UserInputError } from 'apollo-server-express';
-import { getPagedQuery, getNextCursor } from './paging';
+import { getPagingCursors, getPagingQuery } from './paging';
 import handleError from './handleError';
 
 const env = process.env.NODE_ENV || 'development';
 const config = require('../config/database.js')[env];
+
+const PRIMARY_KEY_COL = 'id';
 
 const convertSortableColumn = column => ({
   ID: 'id',
@@ -14,22 +16,37 @@ const convertSortableColumn = column => ({
 const resolvers = {
   Query: {
     fermentables: async (_source, {
-      cursor: encodedCursor, limit, sortBy = 'ID', sortDirection,
+      nextCursor: encodedNextCursor, prevCursor: encodedPrevCursor, limit, sortBy = 'ID', sortDirection,
     }, { dataSources }) => {
       const sortByColumn = convertSortableColumn(sortBy);
+      const where = {}; // TODO: enable where clause
 
-      const query = getPagedQuery(encodedCursor, limit, sortByColumn, sortDirection);
+      const query = getPagingQuery(
+        encodedPrevCursor, encodedNextCursor, sortByColumn,
+        sortDirection, PRIMARY_KEY_COL, limit, where,
+      );
+
       const fermentables = await dataSources.db.Fermentable.findAll(query);
-      let nextCursor = null;
 
-      if (fermentables.length > limit) {
-        nextCursor = getNextCursor(fermentables.pop(), sortByColumn);
+      const hasMore = fermentables.length > limit;
+
+      if (hasMore) {
+        fermentables.pop();
       }
+
+      if (encodedPrevCursor) {
+        fermentables.reverse();
+      }
+
+      const cursors = getPagingCursors(
+        !!encodedNextCursor, !!encodedPrevCursor, fermentables,
+        hasMore, sortByColumn, PRIMARY_KEY_COL,
+      );
 
       return {
         data: fermentables,
         pageInfo: {
-          nextCursor,
+          ...cursors,
         },
       };
     },

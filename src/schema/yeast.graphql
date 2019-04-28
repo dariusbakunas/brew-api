@@ -60,7 +60,8 @@ enum SortableYeastField {
 
 extend type Query {
   yeast(
-    cursor: String
+    nextCursor: String
+    prevCursor: String
     limit: Int = 10
     sortDirection: SortDirection = ASCENDING
     sortBy: SortableYeastField = NAME

@@ -1,7 +1,7 @@
 import { UserInputError } from 'apollo-server-express';
 import Sequelize from 'sequelize';
 import handleError from './handleError';
-import { getPagedQuery, getNextCursor } from './paging';
+import { getPagingQuery, getPagingCursors } from './paging';
 
 const env = process.env.NODE_ENV || 'development';
 const config = require('../config/database.js')[env];
@@ -10,25 +10,40 @@ const convertSortableColumn = column => ({
   NAME: 'name',
 }[column]);
 
+const PRIMARY_KEY_COL = 'id';
+
 const resolvers = {
   Query: {
     hops: async (_source, {
-      cursor: encodedCursor, limit, sortBy, sortDirection,
+      nextCursor: encodedNextCursor, prevCursor: encodedPrevCursor, limit, sortBy, sortDirection,
     }, { dataSources }) => {
       const sortByColumn = convertSortableColumn(sortBy);
-      const query = getPagedQuery(encodedCursor, limit, sortByColumn, sortDirection);
-      const hops = await dataSources.db.Hop.findAll(query);
-      let nextCursor = null;
+      const where = {}; // TODO: enable where clause
 
-      // nextCursor is only available if there is another page
-      if (hops.length > limit) {
-        nextCursor = getNextCursor(hops.pop(), sortByColumn);
+      const query = getPagingQuery(
+        encodedPrevCursor, encodedNextCursor, sortByColumn,
+        sortDirection, PRIMARY_KEY_COL, limit, where,
+      );
+      const hops = await dataSources.db.Hop.findAll(query);
+
+      const hasMore = hops.length > limit;
+
+      if (hasMore) {
+        hops.pop();
       }
+
+      if (encodedPrevCursor) {
+        hops.reverse();
+      }
+
+      const cursors = getPagingCursors(
+        !!encodedNextCursor, !!encodedPrevCursor, hops, hasMore, sortByColumn, PRIMARY_KEY_COL,
+      );
 
       return {
         data: hops,
         pageInfo: {
-          nextCursor,
+          ...cursors,
         },
       };
     },

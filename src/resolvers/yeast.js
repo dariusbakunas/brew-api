@@ -1,6 +1,6 @@
 import Sequelize from 'sequelize';
 import { UserInputError } from 'apollo-server-express';
-import { getPagedQuery, getNextCursor } from './paging';
+import { getPagedQuery, getCursor, getPagingQuery, getPagingCursors } from './paging';
 import handleError from './handleError';
 
 const env = process.env.NODE_ENV || 'development';
@@ -12,25 +12,40 @@ const convertSortableColumn = (column) => {
   }[column];
 };
 
+const PRIMARY_KEY_COL = 'id';
+
 const resolvers = {
   Query: {
     yeast: async (_source, {
-      cursor: encodedCursor, limit, sortBy, sortDirection,
+      nextCursor: encodedNextCursor, prevCursor: encodedPrevCursor, limit, sortBy, sortDirection,
     }, { dataSources }) => {
       const sortByColumn = convertSortableColumn(sortBy);
+      const where = {}; // TODO: enable where clause
 
-      const query = getPagedQuery(encodedCursor, limit, sortByColumn, sortDirection);
+      const query = getPagingQuery(
+        encodedPrevCursor, encodedNextCursor, sortByColumn,
+        sortDirection, PRIMARY_KEY_COL, limit, where,
+      );
       const yeast = await dataSources.db.Yeast.findAll(query);
-      let nextCursor = null;
 
-      if (yeast.length > limit) {
-        nextCursor = getNextCursor(yeast.pop(), sortByColumn);
+      const hasMore = yeast.length > limit;
+
+      if (hasMore) {
+        yeast.pop();
       }
+
+      if (encodedPrevCursor) {
+        yeast.reverse();
+      }
+
+      const cursors = getPagingCursors(
+        !!encodedNextCursor, !!encodedPrevCursor, yeast, hasMore, sortByColumn, PRIMARY_KEY_COL,
+      );
 
       return {
         data: yeast,
         pageInfo: {
-          nextCursor,
+          ...cursors,
         },
       };
     },
