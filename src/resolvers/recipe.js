@@ -67,6 +67,13 @@ const resolvers = {
   },
   Recipe: {
     createdBy: (parent, _args, { dataSources }) => dataSources.db.User.findByPk(parent.createdBy),
+    fermentables: async (parent, _args, { dataSources }) => {
+      const fermentables = await parent.getFermentables();
+      return fermentables.map((fermentable) => ({
+        ...fermentable.dataValues,
+        ...fermentable.RecipeFermentable.dataValues,
+      }));
+    },
   },
 };
 
