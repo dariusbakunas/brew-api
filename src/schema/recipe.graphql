@@ -7,6 +7,17 @@ enum RecipeType {
   WINE
 }
 
+enum FermentableUnit {
+  LB
+  OZ
+}
+
+input RecipeFermentableInput {
+  id: ID!
+  unit: FermentableUnit = LB
+  weight: Float!
+}
+
 input RecipeInput {
   name: String!
   description: String
@@ -14,6 +25,7 @@ input RecipeInput {
   type: RecipeType!
   batchSize: Float!
   boilTime: Float
+  fermentables: [RecipeFermentableInput!]
 }
 
 type Recipe {
