@@ -39,20 +39,28 @@ const resolvers = {
         });
     },
     updateRecipe: async (_source, { id, input }, { dataSources }) => {
-      const result = await dataSources.db.Recipe.update(
-        input,
-        {
-          where: {
-            id: {
-              [Sequelize.Op.eq]: id,
+      await dataSources.db.sequelize.transaction(async (t) => {
+        await dataSources.db.Recipe.update(
+          input,
+          {
+            where: {
+              id: {
+                [Sequelize.Op.eq]: id,
+              },
             },
+            transaction: t,
           },
-          returning: true,
-          plain: true,
-        },
-      );
+        );
 
-      return config.dialect === 'postgres' ? result[1].dataValues : dataSources.db.Recipe.findByPk(id);
+        const recipe = await dataSources.db.Recipe.findByPk(id, { transaction: t });
+
+        await recipe.setFermentables([]);
+
+        await Promise.all(input.fermentables.map(({ id: fermentableId, unit, amount }) => recipe
+          .addFermentable(fermentableId, { through: { unit, amount }, transaction: t })));
+      });
+
+      return dataSources.db.Recipe.findByPk(id);
     },
     removeRecipe: async (_source, { id }, { dataSources }) => {
       const recipe = await dataSources.db.Recipe.findByPk(id);
