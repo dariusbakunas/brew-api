@@ -16,10 +16,17 @@ const convertSortableColumn = column => ({
 const resolvers = {
   Query: {
     fermentables: async (_source, {
-      nextCursor: encodedNextCursor, prevCursor: encodedPrevCursor, limit, sortBy = 'ID', sortDirection,
+      nextCursor: encodedNextCursor, prevCursor: encodedPrevCursor, filter, limit, sortBy = 'ID', sortDirection,
     }, { dataSources }) => {
       const sortByColumn = convertSortableColumn(sortBy);
+
       const where = {}; // TODO: enable where clause
+
+      if (filter && filter.name) {
+        where.name = {
+          [Sequelize.Op.like]: `%${filter.name}%`,
+        };
+      }
 
       const query = getPagingQuery(
         encodedPrevCursor, encodedNextCursor, sortByColumn,
