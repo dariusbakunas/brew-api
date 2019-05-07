@@ -26,17 +26,21 @@ const resolvers = {
     },
   },
   Mutation: {
-    createRecipe: (_source, { input }, { dataSources, user }) => {
+    createRecipe: async (_source, { input }, { dataSources, user }) => {
       const recipeInput = {
         ...input,
         createdBy: user.id,
       };
 
-      return dataSources.db.Recipe.create(recipeInput)
-        .then(recipe => dataSources.db.Recipe.findByPk(recipe.id))
-        .catch((err) => {
-          handleError(err);
-        });
+      let recipe;
+
+      await dataSources.db.sequelize.transaction(async (t) => {
+        recipe = await dataSources.db.Recipe.create(recipeInput, { transaction: t });
+        await Promise.all(input.fermentables.map(({ id: fermentableId, unit, amount }) => recipe
+          .addFermentable(fermentableId, { through: { unit, amount }, transaction: t })));
+      });
+
+      return recipe ? dataSources.db.Recipe.findByPk(recipe.id) : null;
     },
     updateRecipe: async (_source, { id, input }, { dataSources }) => {
       await dataSources.db.sequelize.transaction(async (t) => {
@@ -65,11 +69,15 @@ const resolvers = {
     removeRecipe: async (_source, { id }, { dataSources }) => {
       const recipe = await dataSources.db.Recipe.findByPk(id);
 
+      await dataSources.db.sequelize.transaction(async (t) => {
+        await recipe.setFermentables([], { transaction: t });
+        await recipe.destroy({ transaction: t });
+      });
+
       if (!recipe) {
         throw new UserInputError('Recipe does not exist');
       }
 
-      await recipe.destroy();
       return id;
     },
   },
