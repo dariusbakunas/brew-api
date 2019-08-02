@@ -77,6 +77,10 @@ passport.use(new Strategy(passportOpts, async (payload, done) => {
         plain: true,
       });
 
+      if (!user) {
+        done('Forbidden');
+      }
+
       const { id, email, username } = user;
 
       Sentry.configureScope((scope) => {
