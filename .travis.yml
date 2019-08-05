@@ -41,5 +41,4 @@ jobs:
         - docker build -t gcr.io/$GC_PROJECT_ID/brew-api:$TRAVIS_BUILD_NUMBER .
     - stage: deploy
       script:
-        - gcloud auth configure-docker
-        - docker push gcr.io/$GC_PROJECT_ID/brew-api:$TRAVIS_BUILD_NUMBER .
+        - docker push gcr.io/$GC_PROJECT_ID/brew-api:$TRAVIS_BUILD_NUMBER
