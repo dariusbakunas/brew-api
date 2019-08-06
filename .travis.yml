@@ -23,7 +23,7 @@ jobs:
         - npm install
     - stage: test
       script:
-        - npm test
+        - npm run coveralls
     - stage: build
       script:
         - npm run build:prod
