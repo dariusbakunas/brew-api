@@ -49,10 +49,15 @@ input FermentableInput {
   yield: Float!
 }
 
+input FermentablesFilter {
+  name: String
+}
+
 extend type Query {
   fermentables(
     nextCursor: String
     prevCursor: String
+    filter: FermentablesFilter
     limit: Int = 10
     sortDirection: SortDirection = ASCENDING
     sortBy: SortableFermentableField = NAME

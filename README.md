@@ -2,8 +2,8 @@
 
 | master        | dev           |
 | ------------- | ------------- |
-| [![Build Status](https://gitlab.com/brew-app-group/brew-api/badges/master/pipeline.svg)](https://gitlab.com/brew-app-group/brew-api/pipelines) | [![Build Status](https://gitlab.com/brew-app-group/brew-api/badges/dev/pipeline.svg)](https://gitlab.com/brew-app-group/brew-api/pipelines)  |
-| [![Coverage Status](https://coveralls.io/repos/gitlab/brew-app-group/brew-api/badge.svg?branch=master)](https://coveralls.io/gitlab/brew-app-group/brew-api?branch=master) | [![Coverage Status](https://coveralls.io/repos/gitlab/brew-app-group/brew-api/badge.svg?branch=dev)](https://coveralls.io/gitlab/brew-app-group/brew-api?branch=dev)             |
+| [![Build Status](https://travis-ci.org/dariusbakunas/brew-api.svg?branch=master)](https://travis-ci.org/dariusbakunas/brew-api) | [![Build Status](https://travis-ci.org/dariusbakunas/brew-api.svg?branch=dev)](https://travis-ci.org/dariusbakunas/brew-api)  |
+| [![Coverage Status](https://coveralls.io/repos/github/dariusbakunas/brew-api/badge.svg?branch=master)](https://coveralls.io/github/dariusbakunas/brew-api?branch=master) | [![Coverage Status](https://coveralls.io/repos/github/dariusbakunas/brew-api/badge.svg?branch=dev)](https://coveralls.io/github/dariusbakunas/brew-api?branch=dev)             |
 
 
 ## Starting Local dev database

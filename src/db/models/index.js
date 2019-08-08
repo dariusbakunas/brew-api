@@ -10,6 +10,7 @@ import yeastLab from './yeastLab';
 import yeast from './yeast';
 import water from './water';
 import recipe from './recipe';
+import recipeFermentable from './recipeFermentable';
 
 const env = process.env.NODE_ENV || 'development';
 const config = require('../../config/database.js')[process.env.USE_STAGING_DB === 'true' ? 'staging' : env];
@@ -30,6 +31,7 @@ const modules = [
   yeast,
   water,
   recipe,
+  recipeFermentable,
 ];
 
 // Initialize models

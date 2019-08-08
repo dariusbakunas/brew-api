@@ -77,13 +77,17 @@ passport.use(new Strategy(passportOpts, async (payload, done) => {
         plain: true,
       });
 
-      const { id, email, username } = user;
+      if (!user) {
+        done('Forbidden');
+      } else {
+        const { id, email, username } = user;
 
-      Sentry.configureScope((scope) => {
-        scope.setUser({ id, email, username });
-      });
+        Sentry.configureScope((scope) => {
+          scope.setUser({ id, email, username });
+        });
 
-      done(null, user.toJSON());
+        done(null, user.toJSON());
+      }
     } else {
       if (requestUser.status === 'GUEST') {
         // user at login screen

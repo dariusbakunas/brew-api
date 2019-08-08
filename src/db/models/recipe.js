@@ -46,5 +46,14 @@ module.exports = (sequelize, Sequelize) => {
     tableName: 'recipes',
   });
 
+  Recipe.associate = (models) => {
+    Recipe.belongsToMany(
+      models.Fermentable,
+      {
+        through: models.RecipeFermentable,
+      },
+    );
+  };
+
   return Recipe;
 };

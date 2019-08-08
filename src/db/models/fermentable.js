@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const Grain = sequelize.define('Fermentable', {
+  const Fermentable = sequelize.define('Fermentable', {
     name: {
       allowNull: false,
       type: DataTypes.STRING,
@@ -28,15 +28,22 @@ module.exports = (sequelize, DataTypes) => {
     tableName: 'fermentables',
   });
 
-  Grain.associate = (models) => {
-    Grain.belongsTo(
+  Fermentable.associate = (models) => {
+    Fermentable.belongsTo(
       models.Country,
       {
         foreignKey: 'originId',
         as: 'origin',
       },
     );
+
+    Fermentable.belongsToMany(
+      models.Recipe,
+      {
+        through: models.RecipeFermentable,
+      },
+    );
   };
 
-  return Grain;
+  return Fermentable;
 };

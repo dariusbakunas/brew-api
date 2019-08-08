@@ -97,6 +97,7 @@ const middleware = shield({
   LimitedUser: allow,
   PageInfo: allow,
   Recipe: allow,
+  RecipeFermentable: allow,
   Role: allow,
   Yeast: allow,
   YeastLab: allow,
