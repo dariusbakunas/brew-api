@@ -5,8 +5,8 @@ WORKDIR /usr/src/app
 ENV SCHEMA_LOCATION ./schema
 
 COPY package.json .
-COPY dist ./dist
+COPY build ./build
 COPY node_modules ./node_modules
 
 EXPOSE 8080
-CMD [ "npm", "run", "server:prod" ]
+CMD [ "npm", "start" ]
