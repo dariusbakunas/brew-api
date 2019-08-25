@@ -1,4 +1,4 @@
-import Sequelize from "sequelize/types";
+import Sequelize from "sequelize";
 import country from "./country";
 import hop from "./hop";
 import user from "./user";

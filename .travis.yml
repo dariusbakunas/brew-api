@@ -16,13 +16,13 @@ jobs:
   include:
     - stage: install
       script:
-        - npm install
+        - npm ci
     - stage: test
       script:
         - npm run coveralls
     - stage: build
       script:
-        - npm run build:prod
+        - npm run build
         - npm prune --production && npm install --production
         - docker build -t travis-ci-build-stage -f Dockerfile.ci .
         - docker tag travis-ci-build-stage gcr.io/$GC_PROJECT_ID/brew-api:$TRAVIS_BUILD_NUMBER

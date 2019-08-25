@@ -1,7 +1,7 @@
-import sgMail from '@sendgrid/mail';
-import ejs from 'ejs';
-import path from 'path';
-import logger from '../logger';
+import sgMail from "@sendgrid/mail";
+import ejs from "ejs";
+import path from "path";
+import logger from "../logger";
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
@@ -12,7 +12,7 @@ class EmailSender {
 
       logger.info(`Sending activation email to ${email}`);
 
-      const template = path.join(__dirname, './templates/activationEmail.ejs');
+      const template = path.join(__dirname, "./templates/activationEmail.ejs");
       logger.info(`Loading email template from: ${template}`);
 
       ejs.renderFile(template, { url }, {}, (fileErr, str) => {
@@ -23,15 +23,16 @@ class EmailSender {
 
         const msg = {
           to: email,
-          from: 'noreply@brew.geekspace.us',
-          subject: 'Verify Your Email Address',
+          from: "noreply@brew.geekspace.us",
+          subject: "Verify Your Email Address",
           text: `Please go to this url to activate your account: ${url}`,
           html: str,
         };
 
-        return sgMail.send(msg)
+        return sgMail
+          .send(msg)
           .then((response) => {
-            logger.info('Activation email sent successfully');
+            logger.info("Activation email sent successfully");
             resolve(response);
           })
           .catch((err) => {
@@ -49,7 +50,7 @@ class EmailSender {
 
       logger.info(`Sending invitation email to ${email}`);
 
-      const template = path.join(__dirname, './templates/invitationEmail.ejs');
+      const template = path.join(__dirname, "./templates/invitationEmail.ejs");
 
       ejs.renderFile(template, { url, code: invitationCode }, {}, (fileErr, str) => {
         if (fileErr) {
@@ -59,15 +60,16 @@ class EmailSender {
 
         const msg = {
           to: email,
-          from: 'noreply@brew.geekspace.us',
-          subject: 'Brew Beer Invitation',
+          from: "noreply@brew.geekspace.us",
+          subject: "Brew Beer Invitation",
           text: `Please go to this url to register your account: ${url}, use this code: ${invitationCode}`,
           html: str,
         };
 
-        return sgMail.send(msg)
+        return sgMail
+          .send(msg)
           .then((response) => {
-            logger.info('Invitation email sent successfully');
+            logger.info("Invitation email sent successfully");
             resolve(response);
           })
           .catch((err) => {

@@ -1,0 +1,46 @@
+{
+  "extends": ["tslint:latest", "tslint-config-prettier"],
+  "rules": {
+    "binary-expression-operand-order": true,
+    "class-name": true,
+    "comment-format": false,
+    "curly": true,
+    "cyclomatic-complexity": [true, 20],
+    "file-name-casing": [true, "kebab-case", "pascal-case"],
+    "jsx-boolean-value": [true, "never"],
+    "jsx-equals-spacing": [true, "never"],
+    "jsx-no-string-ref": true,
+    "no-console": [true, "debug", "info", "time", "timeEnd", "trace"],
+    "no-implicit-dependencies": [true, "dev"],
+    "no-return-await": true,
+    "no-shadowed-variable": true,
+    "no-sparse-arrays": true,
+    "no-var-keyword": true,
+    "object-literal-sort-keys": false,
+    "one-line": [
+      true,
+      "check-catch",
+      "check-else",
+      "check-finally",
+      "check-open-brace",
+      "check-whitespace"
+    ],
+    "prefer-method-signature": true,
+    "prefer-object-spread": true,
+    "prefer-template": true,
+    "triple-equals": [true, "allow-null-check", "allow-undefined-check"],
+    "whitespace": [
+      true,
+      "check-branch",
+      "check-decl",
+      "check-operator",
+      "check-module",
+      "check-separator",
+      "check-rest-spread",
+      "check-type",
+      "check-typecast",
+      "check-type-operator",
+      "check-preblock"
+    ]
+  }
+}
