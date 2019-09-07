@@ -45,4 +45,4 @@
 
 ## Upgrade Helm Chart
 
-    % helm upgrade brew-api charts/brew-api --set=image.tag=xx
+    % helm upgrade brew-api charts/brew-api --set "dbPassword"='dbsecret' --set "sendgridKey"='sendgridkey' --set=image.tag=xx
