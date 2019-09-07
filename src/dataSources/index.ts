@@ -7,6 +7,7 @@ export interface IDataSources {
 
 const dataSources: () => IDataSources = () => ({
   emailSender: new EmailSender(),
+  db: db,
 });
 
 export default dataSources;
