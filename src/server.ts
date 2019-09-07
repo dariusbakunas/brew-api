@@ -63,31 +63,37 @@ passport.use(
 
       if (requestUser.status === "ACTIVE") {
         // TODO: only select specific attributes
-        const user = await db.User.findOne({
-          include: [
-            {
-              model: db.Role,
-              as: "roles",
-            },
-          ],
-          where: {
-            email: {
-              [Sequelize.Op.eq]: requestUser.email,
-            },
-          },
-          plain: true,
-        });
 
-        if (!user) {
-          done("Forbidden");
-        } else {
-          const { id, email, username } = user;
-
-          Sentry.configureScope((scope) => {
-            scope.setUser({ id, email, username });
+        try {
+          const user = await db.User.findOne({
+            include: [
+              {
+                model: db.Role,
+                as: "roles",
+              },
+            ],
+            where: {
+              email: {
+                [Sequelize.Op.eq]: requestUser.email,
+              },
+            },
+            plain: true,
           });
 
-          done(null, user.toJSON());
+          if (!user) {
+            done("Forbidden");
+          } else {
+            const { id, email, username } = user;
+
+            Sentry.configureScope((scope) => {
+              scope.setUser({ id, email, username });
+            });
+
+            done(null, user.toJSON());
+          }
+        } catch (err) {
+          logger.error(err.message);
+          done(err);
         }
       } else {
         if (requestUser.status === "GUEST") {
