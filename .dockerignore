@@ -1,1 +1,7 @@
 *.csv
+src/
+scripts/
+charts/
+templates/
+tests/
+gce.json.enc
