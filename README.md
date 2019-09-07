@@ -42,3 +42,7 @@
 ## Install Helm Chart
 
     % helm install charts/brew-api --name brew-api --set "dbPassword"='dbsecret' --set "sendgridKey"='sendgridkey'
+
+## Upgrade Helm Chart
+
+    % helm upgrade brew-api charts/brew-api --set=image.tag=xx

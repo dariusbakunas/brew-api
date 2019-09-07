@@ -9,7 +9,7 @@
   "scripts": {
     "lint": "eslint --ignore-path .gitignore .",
     "dev": "nodemon",
-    "start": "node build/src/server.js",
+    "start": "cross-env NODE_ENV=production node build/src/server.js",
     "build": "tsc && cp -r ./src/schema/*.graphql ./build/src/schema",
     "db:dev": "cross-env NODE_ENV=development sequelize",
     "db:prod": "cross-env NODE_ENV=production sequelize",
