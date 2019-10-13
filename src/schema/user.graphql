@@ -1,5 +1,4 @@
 enum UserStatus {
-  NEW
   ACTIVE
   INACTIVE
 }
@@ -27,11 +26,9 @@ type User {
   id: ID!
   username: String!
   firstName: String
-  isAdmin: Boolean!
   lastName: String
   email: String!
   status: UserStatus!
-  roles: [Role!]!
 }
 
 input RegistrationInput {
@@ -73,7 +70,7 @@ extend type Mutation {
   createInvitation(email: String!, sendEmail: Boolean): Invitation!
   createRole(input: RoleInput!): Role!
   deleteInvitation(email: String!): ID!
-  register(input: RegistrationInput!): User!
+  register(input: RegistrationInput!): User
   removeUser(id: ID!): ID!
   updateUser(id: ID!, input: UserInput!): User!
 }
