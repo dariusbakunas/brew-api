@@ -21,7 +21,7 @@
     "test": "jest",
     "coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls",
     "prettier": "pretty-quick",
-    "schema:types": "graphql-codegen --config codegen.yml"
+    "gen:types": "graphql-codegen --config codegen.yml"
   },
   "husky": {
     "hooks": {
@@ -82,6 +82,7 @@
     "@types/btoa": "^1.2.3",
     "@types/ejs": "^2.6.3",
     "@types/express-rate-limit": "^3.3.3",
+    "@types/graphql": "^14.5.0",
     "@types/jest": "^24.0.18",
     "@types/morgan": "^1.7.37",
     "@types/node-fetch": "^2.5.2",

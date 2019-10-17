@@ -106,12 +106,6 @@ export type HopInput = {
   originId: Scalars['ID'];
 };
 
-export type HopsResponse = {
-  __typename?: 'HopsResponse';
-  pageInfo: PageInfo;
-  data: Array<Hop>;
-};
-
 export type Invitation = {
   __typename?: 'Invitation';
   id: Scalars['ID'];
@@ -259,7 +253,7 @@ export type Query = {
   __typename?: 'Query';
   countries: Array<Country>;
   fermentables: FermentablesResponse;
-  hops: HopsResponse;
+  hops: Array<Hop>;
   _empty?: Maybe<Scalars['String']>;
   randomQuote: Quote;
   recipes: Array<Recipe>;
@@ -284,9 +278,6 @@ export type QueryFermentablesArgs = {
 };
 
 export type QueryHopsArgs = {
-  nextCursor?: Maybe<Scalars['String']>;
-  prevCursor?: Maybe<Scalars['String']>;
-  limit?: Maybe<Scalars['Int']>;
   sortDirection?: Maybe<SortDirection>;
   sortBy?: Maybe<SortableHopField>;
 };
@@ -609,107 +600,105 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Query: ResolverTypeWrapper<{}>;
-  Country: ResolverTypeWrapper<Country>;
-  ID: ResolverTypeWrapper<Scalars['ID']>;
-  String: ResolverTypeWrapper<Scalars['String']>;
-  FermentablesFilter: FermentablesFilter;
-  Int: ResolverTypeWrapper<Scalars['Int']>;
-  SortDirection: SortDirection;
-  SortableFermentableField: SortableFermentableField;
-  FermentablesResponse: ResolverTypeWrapper<FermentablesResponse>;
-  PageInfo: ResolverTypeWrapper<PageInfo>;
-  Fermentable: ResolverTypeWrapper<Fermentable>;
-  FermentableCategory: FermentableCategory;
-  Float: ResolverTypeWrapper<Scalars['Float']>;
-  FermentableType: FermentableType;
-  SortableHopField: SortableHopField;
-  HopsResponse: ResolverTypeWrapper<HopsResponse>;
-  Hop: ResolverTypeWrapper<Hop>;
-  Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
-  Quote: ResolverTypeWrapper<Quote>;
-  Recipe: ResolverTypeWrapper<Recipe>;
-  RecipeFermentable: ResolverTypeWrapper<RecipeFermentable>;
-  FermentableUnit: FermentableUnit;
-  RecipeType: RecipeType;
-  LimitedUser: ResolverTypeWrapper<LimitedUser>;
-  Invitation: ResolverTypeWrapper<Invitation>;
-  Role: ResolverTypeWrapper<Role>;
-  User: ResolverTypeWrapper<User>;
-  UserStatus: UserStatus;
-  SortableWaterField: SortableWaterField;
-  WaterResponse: ResolverTypeWrapper<WaterResponse>;
-  Water: ResolverTypeWrapper<Water>;
-  SortableYeastField: SortableYeastField;
-  YeastResponse: ResolverTypeWrapper<YeastResponse>;
-  Yeast: ResolverTypeWrapper<Yeast>;
-  YeastFlocculation: YeastFlocculation;
-  YeastForm: YeastForm;
-  YeastLab: ResolverTypeWrapper<YeastLab>;
-  YeastType: YeastType;
+  Country: ResolverTypeWrapper<Partial<Country>>;
+  ID: ResolverTypeWrapper<Partial<Scalars['ID']>>;
+  String: ResolverTypeWrapper<Partial<Scalars['String']>>;
+  FermentablesFilter: ResolverTypeWrapper<Partial<FermentablesFilter>>;
+  Int: ResolverTypeWrapper<Partial<Scalars['Int']>>;
+  SortDirection: ResolverTypeWrapper<Partial<SortDirection>>;
+  SortableFermentableField: ResolverTypeWrapper<Partial<SortableFermentableField>>;
+  FermentablesResponse: ResolverTypeWrapper<Partial<FermentablesResponse>>;
+  PageInfo: ResolverTypeWrapper<Partial<PageInfo>>;
+  Fermentable: ResolverTypeWrapper<Partial<Fermentable>>;
+  FermentableCategory: ResolverTypeWrapper<Partial<FermentableCategory>>;
+  Float: ResolverTypeWrapper<Partial<Scalars['Float']>>;
+  FermentableType: ResolverTypeWrapper<Partial<FermentableType>>;
+  SortableHopField: ResolverTypeWrapper<Partial<SortableHopField>>;
+  Hop: ResolverTypeWrapper<Partial<Hop>>;
+  Boolean: ResolverTypeWrapper<Partial<Scalars['Boolean']>>;
+  Quote: ResolverTypeWrapper<Partial<Quote>>;
+  Recipe: ResolverTypeWrapper<Partial<Recipe>>;
+  RecipeFermentable: ResolverTypeWrapper<Partial<RecipeFermentable>>;
+  FermentableUnit: ResolverTypeWrapper<Partial<FermentableUnit>>;
+  RecipeType: ResolverTypeWrapper<Partial<RecipeType>>;
+  LimitedUser: ResolverTypeWrapper<Partial<LimitedUser>>;
+  Invitation: ResolverTypeWrapper<Partial<Invitation>>;
+  Role: ResolverTypeWrapper<Partial<Role>>;
+  User: ResolverTypeWrapper<Partial<User>>;
+  UserStatus: ResolverTypeWrapper<Partial<UserStatus>>;
+  SortableWaterField: ResolverTypeWrapper<Partial<SortableWaterField>>;
+  WaterResponse: ResolverTypeWrapper<Partial<WaterResponse>>;
+  Water: ResolverTypeWrapper<Partial<Water>>;
+  SortableYeastField: ResolverTypeWrapper<Partial<SortableYeastField>>;
+  YeastResponse: ResolverTypeWrapper<Partial<YeastResponse>>;
+  Yeast: ResolverTypeWrapper<Partial<Yeast>>;
+  YeastFlocculation: ResolverTypeWrapper<Partial<YeastFlocculation>>;
+  YeastForm: ResolverTypeWrapper<Partial<YeastForm>>;
+  YeastLab: ResolverTypeWrapper<Partial<YeastLab>>;
+  YeastType: ResolverTypeWrapper<Partial<YeastType>>;
   Mutation: ResolverTypeWrapper<{}>;
-  FermentableInput: FermentableInput;
-  HopInput: HopInput;
-  RecipeInput: RecipeInput;
-  RecipeFermentableInput: RecipeFermentableInput;
-  ActivationResponse: ResolverTypeWrapper<ActivationResponse>;
-  RoleInput: RoleInput;
-  RegistrationInput: RegistrationInput;
-  UserInput: UserInput;
-  WaterInput: WaterInput;
-  YeastInput: YeastInput;
+  FermentableInput: ResolverTypeWrapper<Partial<FermentableInput>>;
+  HopInput: ResolverTypeWrapper<Partial<HopInput>>;
+  RecipeInput: ResolverTypeWrapper<Partial<RecipeInput>>;
+  RecipeFermentableInput: ResolverTypeWrapper<Partial<RecipeFermentableInput>>;
+  ActivationResponse: ResolverTypeWrapper<Partial<ActivationResponse>>;
+  RoleInput: ResolverTypeWrapper<Partial<RoleInput>>;
+  RegistrationInput: ResolverTypeWrapper<Partial<RegistrationInput>>;
+  UserInput: ResolverTypeWrapper<Partial<UserInput>>;
+  WaterInput: ResolverTypeWrapper<Partial<WaterInput>>;
+  YeastInput: ResolverTypeWrapper<Partial<YeastInput>>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Query: {};
-  Country: Country;
-  ID: Scalars['ID'];
-  String: Scalars['String'];
-  FermentablesFilter: FermentablesFilter;
-  Int: Scalars['Int'];
-  SortDirection: SortDirection;
-  SortableFermentableField: SortableFermentableField;
-  FermentablesResponse: FermentablesResponse;
-  PageInfo: PageInfo;
-  Fermentable: Fermentable;
-  FermentableCategory: FermentableCategory;
-  Float: Scalars['Float'];
-  FermentableType: FermentableType;
-  SortableHopField: SortableHopField;
-  HopsResponse: HopsResponse;
-  Hop: Hop;
-  Boolean: Scalars['Boolean'];
-  Quote: Quote;
-  Recipe: Recipe;
-  RecipeFermentable: RecipeFermentable;
-  FermentableUnit: FermentableUnit;
-  RecipeType: RecipeType;
-  LimitedUser: LimitedUser;
-  Invitation: Invitation;
-  Role: Role;
-  User: User;
-  UserStatus: UserStatus;
-  SortableWaterField: SortableWaterField;
-  WaterResponse: WaterResponse;
-  Water: Water;
-  SortableYeastField: SortableYeastField;
-  YeastResponse: YeastResponse;
-  Yeast: Yeast;
-  YeastFlocculation: YeastFlocculation;
-  YeastForm: YeastForm;
-  YeastLab: YeastLab;
-  YeastType: YeastType;
+  Country: Partial<Country>;
+  ID: Partial<Scalars['ID']>;
+  String: Partial<Scalars['String']>;
+  FermentablesFilter: Partial<FermentablesFilter>;
+  Int: Partial<Scalars['Int']>;
+  SortDirection: Partial<SortDirection>;
+  SortableFermentableField: Partial<SortableFermentableField>;
+  FermentablesResponse: Partial<FermentablesResponse>;
+  PageInfo: Partial<PageInfo>;
+  Fermentable: Partial<Fermentable>;
+  FermentableCategory: Partial<FermentableCategory>;
+  Float: Partial<Scalars['Float']>;
+  FermentableType: Partial<FermentableType>;
+  SortableHopField: Partial<SortableHopField>;
+  Hop: Partial<Hop>;
+  Boolean: Partial<Scalars['Boolean']>;
+  Quote: Partial<Quote>;
+  Recipe: Partial<Recipe>;
+  RecipeFermentable: Partial<RecipeFermentable>;
+  FermentableUnit: Partial<FermentableUnit>;
+  RecipeType: Partial<RecipeType>;
+  LimitedUser: Partial<LimitedUser>;
+  Invitation: Partial<Invitation>;
+  Role: Partial<Role>;
+  User: Partial<User>;
+  UserStatus: Partial<UserStatus>;
+  SortableWaterField: Partial<SortableWaterField>;
+  WaterResponse: Partial<WaterResponse>;
+  Water: Partial<Water>;
+  SortableYeastField: Partial<SortableYeastField>;
+  YeastResponse: Partial<YeastResponse>;
+  Yeast: Partial<Yeast>;
+  YeastFlocculation: Partial<YeastFlocculation>;
+  YeastForm: Partial<YeastForm>;
+  YeastLab: Partial<YeastLab>;
+  YeastType: Partial<YeastType>;
   Mutation: {};
-  FermentableInput: FermentableInput;
-  HopInput: HopInput;
-  RecipeInput: RecipeInput;
-  RecipeFermentableInput: RecipeFermentableInput;
-  ActivationResponse: ActivationResponse;
-  RoleInput: RoleInput;
-  RegistrationInput: RegistrationInput;
-  UserInput: UserInput;
-  WaterInput: WaterInput;
-  YeastInput: YeastInput;
+  FermentableInput: Partial<FermentableInput>;
+  HopInput: Partial<HopInput>;
+  RecipeInput: Partial<RecipeInput>;
+  RecipeFermentableInput: Partial<RecipeFermentableInput>;
+  ActivationResponse: Partial<ActivationResponse>;
+  RoleInput: Partial<RoleInput>;
+  RegistrationInput: Partial<RegistrationInput>;
+  UserInput: Partial<UserInput>;
+  WaterInput: Partial<WaterInput>;
+  YeastInput: Partial<YeastInput>;
 };
 
 export type ActivationResponseResolvers<
@@ -765,14 +754,6 @@ export type HopResolvers<
   bittering?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   aroma?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   origin?: Resolver<ResolversTypes['Country'], ParentType, ContextType>;
-};
-
-export type HopsResponseResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes['HopsResponse'] = ResolversParentTypes['HopsResponse']
-> = {
-  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>;
-  data?: Resolver<Array<ResolversTypes['Hop']>, ParentType, ContextType>;
 };
 
 export type InvitationResolvers<
@@ -953,10 +934,10 @@ export type QueryResolvers<
     RequireFields<QueryFermentablesArgs, 'limit' | 'sortDirection' | 'sortBy'>
   >;
   hops?: Resolver<
-    ResolversTypes['HopsResponse'],
+    Array<ResolversTypes['Hop']>,
     ParentType,
     ContextType,
-    RequireFields<QueryHopsArgs, 'limit' | 'sortDirection' | 'sortBy'>
+    RequireFields<QueryHopsArgs, 'sortDirection' | 'sortBy'>
   >;
   _empty?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   randomQuote?: Resolver<ResolversTypes['Quote'], ParentType, ContextType>;
@@ -1115,7 +1096,6 @@ export type Resolvers<ContextType = any> = {
   Fermentable?: FermentableResolvers<ContextType>;
   FermentablesResponse?: FermentablesResponseResolvers<ContextType>;
   Hop?: HopResolvers<ContextType>;
-  HopsResponse?: HopsResponseResolvers<ContextType>;
   Invitation?: InvitationResolvers<ContextType>;
   LimitedUser?: LimitedUserResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
