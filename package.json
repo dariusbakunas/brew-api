@@ -17,7 +17,9 @@
     "db:staging": "cross-env NODE_ENV=staging sequelize",
     "token:gen": "node -r dotenv/config scripts/token.js",
     "test": "jest",
-    "coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls"
+    "coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -53,7 +55,8 @@
     "pg-hstore": "^2.3.2",
     "sequelize": "^5.7.1",
     "uuid": "^3.3.2",
-    "winston": "^3.2.1"
+    "winston": "^3.2.1",
+    "snyk": "^1.316.1"
   },
   "devDependencies": {
     "@babel/core": "^7.4.3",
@@ -81,5 +84,6 @@
     "webpack": "^4.30.0",
     "webpack-cli": "^3.3.0",
     "webpack-node-externals": "^1.7.2"
-  }
+  },
+  "snyk": true
 }
